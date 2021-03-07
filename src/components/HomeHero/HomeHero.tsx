@@ -32,7 +32,7 @@ function HomeHero() {
           <Subline>Decouvrez tous les secrets de votre region en vivant des experiences d'exception dans des lieux insolites</Subline>
           <Button>Je decouvre ma region</Button>
         </Content>
-        <BackgroundVideo className="videoTag" playsInline autoPlay loop muted>
+        <BackgroundVideo className="videoTag" poster="home-bg-preview.png" playsInline autoPlay loop muted>
           <source src="home-background.mp4" type="video/mp4" />
         </BackgroundVideo>
       </Container>
