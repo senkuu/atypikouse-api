@@ -1,7 +1,9 @@
 import React from "react";
 import GlobalStyles from "../components/GlobalStyles";
 
-function MyApp({ Component, pageProps }) {
+import "../style/style.css";
+
+function MyApp({ Component, pageProps }: {Component: any, pageProps: any}) {
   return (
     <>
       <GlobalStyles />
