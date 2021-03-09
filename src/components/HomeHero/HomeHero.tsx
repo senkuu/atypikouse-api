@@ -16,7 +16,7 @@ const TransparentGrayBackground = tw.div`h-screen w-screen bg-gray-800 bg-opacit
 
 const Headline = tw.h1`font-serif text-6xl text-white uppercase`
 
-const BoldText = tw.span`font-extrabold text-green-600`;
+const GreenText = tw.span`text-green-600`;
 
 const Subline = tw.p`mt-6 font-sans text-white text-xl`
 
@@ -28,7 +28,7 @@ function HomeHero() {
       <Container>
         <TransparentGrayBackground />
         <Content>
-          <Headline>Vous ne connaissez pas <BoldText>votre region</BoldText></Headline>
+          <Headline>Vous ne connaissez pas <GreenText>votre region</GreenText></Headline>
           <Subline>Decouvrez tous les secrets de votre region en vivant des experiences d'exception dans des lieux insolites</Subline>
           <Button>Je decouvre ma region</Button>
         </Content>
