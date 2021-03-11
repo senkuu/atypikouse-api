@@ -37,7 +37,6 @@ const PositionIcon = tw.div`w-10 z-10 pl-1 text-center pointer-events-none flex 
 const Container = tw.div`md:flex w-full bg-gray-100 text-gray-500 rounded-3xl shadow-xl overflow-hidden max-w-screen-lg`;
 const Input = tw.input`w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-Green-default`;
 const SubmitButton = tw.button`block w-full max-w-xs mx-auto bg-Green-default hover:bg-Green-light focus:bg-Green-default text-white rounded-lg px-3 py-3 font-semibold uppercase`;
-
 interface registerProps {}
 
 interface Values {
@@ -48,7 +47,6 @@ interface Values {
 }
 
 export default function Register() {
-  const router = useRouter();
 
   const handleFormSubmit = async (
     values: Values,
@@ -61,7 +59,7 @@ export default function Register() {
     <Body>
       <Container>
         <LeftForm>
-          <svg
+        <svg
             id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
             data-name="Layer 1"
             xmlns="http://www.w3.org/2000/svg"
@@ -273,6 +271,7 @@ export default function Register() {
               password: "",
             }}
             onSubmit={handleFormSubmit}
+            
           >
             {({ isSubmitting }) => (
               <Form>
