@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Atypik'House | Une séléction de lieux insolites premiums</title>
+        <title>Atypik'House | Séléction de logements insolites premiums</title>
       </Head>
       <HomeHero />
       <h1>Atypik'house</h1>
