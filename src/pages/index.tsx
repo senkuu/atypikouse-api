@@ -16,6 +16,9 @@ const GreenText = tw.span`text-green-500`;
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>Atypik'House | Séléction de logements insolites premiums</title>
+      </Head>
       <HomeHero />
       <MainContainer>
         <Container>
