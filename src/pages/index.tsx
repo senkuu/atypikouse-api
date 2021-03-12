@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import tw, { styled } from "twin.macro";
 
 import HomeHero from "../components/HomeHero";
