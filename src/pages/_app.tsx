@@ -1,14 +1,22 @@
 import React from "react";
-import GlobalStyles from "../components/GlobalStyles";
+import { Provider as UrqlProvider, createClient } from "urql";
 
+import GlobalStyles from "../components/GlobalStyles";
 import "../style/style.css";
 
-function MyApp({ Component, pageProps }: {Component: any, pageProps: any}) {
+const urqlClient = createClient({
+  url: "http://localhost:4000/graphql",
+  fetchOptions: {
+    credentials: "include",
+  },
+});
+
+function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   return (
-    <>
+    <UrqlProvider value={urqlClient}>
       <GlobalStyles />
       <Component {...pageProps} />
-    </>
+    </UrqlProvider>
   );
 }
 

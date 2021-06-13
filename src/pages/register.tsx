@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
+import { useMutation } from "urql";
+
 import tw, { styled } from "twin.macro";
-import Icon from "@material-ui/core/Icon";
-import { useRouter } from "next/router";
 
 import InputField from "../components/InputField";
 
@@ -31,13 +31,23 @@ const Container_Name = tw.div`w-1/2 px-3 mb-5`;
 const Container_Email = tw.div`w-full px-3 mb-5`;
 const Container_Password = tw.div`w-full px-3 mb-12`;
 const Container_Button = tw.div`w-full px-3 mb-5`;
-const Label = tw.label`text-xs font-semibold px-1`;
-const PositionInput = tw.div`flex`;
-const PositionIcon = tw.div`w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center`;
 const Container = tw.div`md:flex w-full bg-gray-100 text-gray-500 rounded-3xl shadow-xl overflow-hidden max-w-screen-lg`;
-const Input = tw.input`w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-Green-default`;
 const SubmitButton = tw.button`block w-full max-w-xs mx-auto bg-Green-default hover:bg-Green-light focus:bg-Green-default text-white rounded-lg px-3 py-3 font-semibold uppercase`;
-interface registerProps {}
+
+const REGISTER_MUTATION = `
+mutation Register($email: String!, $name: String!, $surname: String!, $password:String!) {
+  register(options: { name: $name, email: $email, surname: $surname, password: $password }) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      email
+    }
+  }
+}
+`;
 
 interface Values {
   name: string;
@@ -47,19 +57,18 @@ interface Values {
 }
 
 export default function Register() {
+  const [, register] = useMutation(REGISTER_MUTATION);
 
-  const handleFormSubmit = async (
-    values: Values,
-    { setErrors }: FormikHelpers<Values>
-  ) => {
-    console.log(values);
+  const handleFormSubmit = async (values: Values) => {
+    const response = await register(values);
+    console.log(response);
   };
 
   return (
     <Body>
       <Container>
         <LeftForm>
-        <svg
+          <svg
             id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
             data-name="Layer 1"
             xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +280,6 @@ export default function Register() {
               password: "",
             }}
             onSubmit={handleFormSubmit}
-            
           >
             {({ isSubmitting }) => (
               <Form>
@@ -280,7 +288,7 @@ export default function Register() {
                     <InputField
                       icon="person"
                       label="Nom"
-                      name="name"
+                      name="surname"
                       type="text"
                       placeholder="Dupont"
                       required
@@ -291,7 +299,7 @@ export default function Register() {
                     <InputField
                       icon="person"
                       label="Prenom"
-                      name="surname"
+                      name="name"
                       type="text"
                       placeholder="Jean"
                       required

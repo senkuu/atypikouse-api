@@ -22,7 +22,7 @@ function InputField({ label, icon, ...props }: InputFieldProps) {
   return (
     <div>
       <Label htmlFor={field.name}>{label}</Label>
-      <PositionInput >
+      <PositionInput>
         <PositionIcon>
           <Icon>{icon}</Icon>
         </PositionIcon>
@@ -31,7 +31,6 @@ function InputField({ label, icon, ...props }: InputFieldProps) {
           {...props}
           id={field.name}
           placeholder={props.placeholder ?? ""}
-          
         />
       </PositionInput>
     </div>
