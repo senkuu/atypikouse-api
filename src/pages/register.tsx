@@ -1,8 +1,8 @@
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
-import { useMutation } from "urql";
-
 import tw, { styled } from "twin.macro";
+
+import { useRegisterMutation } from "../generated/graphql.tsx";
 
 import InputField from "../components/InputField";
 
@@ -34,21 +34,6 @@ const Container_Button = tw.div`w-full px-3 mb-5`;
 const Container = tw.div`md:flex w-full bg-gray-100 text-gray-500 rounded-3xl shadow-xl overflow-hidden max-w-screen-lg`;
 const SubmitButton = tw.button`block w-full max-w-xs mx-auto bg-Green-default hover:bg-Green-light focus:bg-Green-default text-white rounded-lg px-3 py-3 font-semibold uppercase`;
 
-const REGISTER_MUTATION = `
-mutation Register($email: String!, $name: String!, $surname: String!, $password:String!) {
-  register(options: { name: $name, email: $email, surname: $surname, password: $password }) {
-    errors {
-      field
-      message
-    }
-    user {
-      id
-      email
-    }
-  }
-}
-`;
-
 interface Values {
   name: string;
   surname: string;
@@ -57,7 +42,7 @@ interface Values {
 }
 
 export default function Register() {
-  const [, register] = useMutation(REGISTER_MUTATION);
+  const [, register] = useRegisterMutation();
 
   const handleFormSubmit = async (values: Values) => {
     const response = await register(values);
