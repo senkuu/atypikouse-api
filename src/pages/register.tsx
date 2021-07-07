@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
-import { useRegisterMutation } from "../generated/graphql.tsx";
+import { useRegisterMutation } from "../generated/graphql";
 
 import InputField from "../components/InputField";
 
