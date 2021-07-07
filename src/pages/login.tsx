@@ -1,8 +1,6 @@
 import React from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import tw, { styled } from "twin.macro";
-import Icon from "@material-ui/core/Icon";
-import { useRouter } from "next/router";
 import InputField from "../components/InputField";
 import Image from "next/image";
 
@@ -23,8 +21,6 @@ const Container_Email = tw.div`w-full px-3 mb-5`;
 const Container_Password = tw.div`w-full px-3 mb-12`;
 const Container_Button = tw.div`w-full px-3 mb-5`;
 const SubmitButton = tw.button`block w-full max-w-xs mx-auto bg-Green-default hover:bg-Green-light focus:bg-Green-default text-white rounded-lg px-3 py-3 font-semibold uppercase`;
-
-interface registerProps {}
 
 interface Values {
   email: string;
@@ -104,4 +100,3 @@ export default function Login() {
     </>
   );
 }
-
