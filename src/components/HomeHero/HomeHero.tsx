@@ -35,9 +35,9 @@ function HomeHero() {
       <Container>
         <TransparentGrayBackground />
         <Content>
-          <Headline>Vous ne connaissez pas <GreenText>votre region</GreenText></Headline>
-          <Subline>Decouvrez tous les secrets de votre region en vivant des experiences d'exception dans des lieux insolites</Subline>
-          <Button>Je decouvre ma region</Button>
+          <Headline>Vous ne connaissez pas <GreenText>votre région</GreenText></Headline>
+          <Subline>Découvrez tous les secrets de votre région en vivant des expériences d'exception dans des lieux insolites</Subline>
+          <Button>Je découvre ma région</Button>
         </Content>
         <BackgroundVideo
           className="videoTag"

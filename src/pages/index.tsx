@@ -41,14 +41,14 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Atypik'House | Séléction de logements insolites premiums</title>
+        <title>Atypik House | Sélection de logements insolites premium</title>
       </Head>
       <HomeHero />
       <MainContainer>
         <Container>
           <section>
             <Title>
-              des lieux <GreenText>d’exceptions</GreenText>
+              Des lieux <GreenText>d’exception</GreenText>
             </Title>
             <ResponsiveContainer>
               <ImageSquareContainer>
@@ -75,10 +75,10 @@ export default function Home() {
             <Title>Fini les mauvaises surprises !</Title>
             <ResponsiveContainer>
               <Text tw="max-w-sm md:max-w-xl text-2xl text-justify self-center">
-                Atypik’house ne propose qu’une sélection de lieux premium{" "}
+                Atypik House ne propose qu’une sélection de lieux premium{" "}
                 <GreenText>testés</GreenText> et{" "}
-                <GreenText>approuvés</GreenText> par nos soins afin de vous
-                éviter au maximum les mauvaises surprises lors de votre arrivé.
+                <GreenText>approuvés</GreenText> par nos soins, afin de vous
+                éviter au maximum les mauvaises surprises lors de votre arrivée.
                 <br />
                 <br />
                 Une réservation sans prise de tête !
@@ -104,7 +104,7 @@ export default function Home() {
                   profilePictureURI:
                     "https://cdn-elle.ladmedia.fr/var/plain_site/storage/images/people/la-vie-des-people/news/natalie-portman-declare-sa-flamme-a-benjamin-millepied-3868407/93600559-1-fre-FR/Natalie-Portman-declare-sa-flamme-a-Benjamin-Millepied.jpg",
                 }}
-                review="Logement réservé la veille pour le weekend, tout était conforme à nos attentes ! Anne-Claude nous a même fait bénéficier d’un petit-déjeuner gratuit, c’était notre premier weekend avec Atypik’house, mais sûrement pas le dernier !"
+                review="Logement réservé la veille pour le week-end, tout était conforme à nos attentes. Anne-Claude nous a même fait bénéficier d’un petit-déjeuner gratuit ! C’était notre premier week-end avec Atypik House, mais sûrement pas le dernier !"
               />
               <ReviewCard
                 author={{
