@@ -32,6 +32,11 @@ function InputField({ label, icon, ...props }: InputFieldProps) {
           id={field.name}
           placeholder={props.placeholder ?? ""}
         />
+        {error && (
+          <FormErrorMessage data-testid={`error-message-${field.name}`}>
+            {error}
+          </FormErrorMessage>
+        )}
       </PositionInput>
     </div>
   );

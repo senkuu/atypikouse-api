@@ -7,4 +7,7 @@ module.exports = {
 
     return config;
   },
+  env: {
+    GRAPHQL_API_URI: process.env.GRAPHQL_API_URI,
+  },
 };

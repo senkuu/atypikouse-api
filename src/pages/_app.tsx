@@ -5,7 +5,7 @@ import GlobalStyles from "../components/GlobalStyles";
 import "../style/style.css";
 
 const urqlClient = createClient({
-  url: "http://localhost:4000/graphql",
+  url: process.env.GRAPHQL_API_URI ?? "http://localhost:4000/graphql",
   fetchOptions: {
     credentials: "include",
   },

@@ -1,22 +1,22 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { Formik, Form, FormikHelpers } from "formik";
 import tw, { styled } from "twin.macro";
-import Image from 'next/image';
-import { useRegisterMutation } from "../generated/graphql.tsx";
+import Image from "next/image";
+import { useRegisterMutation } from "../generated/graphql";
 
 import InputField from "../components/InputField";
 
-const Wrapper = tw.div`flex flex-wrap mb-2.5`
-const Banner  = styled.div`
-${tw`flex lg:w-5/12 w-0 bg-gray-900 h-screen bg-cover`}
-background-image: url('https://cdn.discordapp.com/attachments/779349667212165184/851799108008017940/lucas-clara-hvPB-UCAmmU-unsplash.jpg')
-`
+const Wrapper = tw.div`flex flex-wrap mb-2.5`;
+const Banner = styled.div`
+  ${tw`flex lg:w-5/12 w-0 bg-gray-900 h-screen bg-cover`}
+  background-image: url('https://cdn.discordapp.com/attachments/779349667212165184/851799108008017940/lucas-clara-hvPB-UCAmmU-unsplash.jpg')
+`;
 const ContainerForm = styled.div`
-${tw`flex lg:w-7/12 w-full h-screen bg-white justify-center items-center`}
-`
+  ${tw`flex lg:w-7/12 w-full h-screen bg-white justify-center items-center`}
+`;
 const RightForm = tw.div`w-full md:w-1/2 py-10 px-5 md:px-10`;
 const RightFormCenter = tw.div`text-center mb-10`;
-const ErrorMessage = tw.p`text-red-700 text-center mb-8`
+const ErrorMessage = tw.p`text-red-700 text-center mb-8`;
 const HeadLine = tw.h1`font-bold text-3xl text-gray-900`;
 const Paragraphe = tw.p`font-medium`;
 const Position = tw.div`flex -mx-3`;
@@ -33,7 +33,6 @@ interface Values {
 }
 
 export default function Register() {
-
   const [isError, setIsError] = useState(false);
 
   const [, register] = useRegisterMutation();
@@ -45,15 +44,15 @@ export default function Register() {
 
   return (
     <Wrapper>
-    <ContainerForm>
+      <ContainerForm>
         <RightForm>
           <RightFormCenter>
-          <Image
-                    src="/Logo-mountain.png"
-                    alt="Picture of the author"
-                    width={220}
-                    height={140}
-                  />
+            <Image
+              src="/Logo-mountain.png"
+              alt="Picture of the author"
+              width={220}
+              height={140}
+            />
             <HeadLine>Créer votre compte !</HeadLine>
             <Paragraphe>Entrez vos informations pour vous inscrire</Paragraphe>
           </RightFormCenter>
@@ -65,7 +64,6 @@ export default function Register() {
               password: "",
             }}
             onSubmit={handleFormSubmit}
-            
           >
             {({ isSubmitting }) => (
               <Form>
@@ -105,23 +103,29 @@ export default function Register() {
                   </Container_Email>
                 </Position>
                 <div>
-                <Position>
-                  
-                 <Container_Password>
-                    <InputField
-                      icon="https"
-                      label="Mot de passe"
-                      name="password"
-                      type="password"
-                      placeholder="********"
-                      required
-                    />
-                  </Container_Password> 
-                </Position>
+                  <Position>
+                    <Container_Password>
+                      <InputField
+                        icon="https"
+                        label="Mot de passe"
+                        name="password"
+                        type="password"
+                        placeholder="********"
+                        required
+                      />
+                    </Container_Password>
+                  </Position>
                 </div>
                 <div>
-                  {(isError ? <ErrorMessage>*mot de passe trop court. le mot de passe doit comporter minimum 8 caractères</ErrorMessage> : "")}    
-                 </div>
+                  {isError ? (
+                    <ErrorMessage>
+                      *mot de passe trop court. le mot de passe doit comporter
+                      minimum 8 caractères
+                    </ErrorMessage>
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <Position>
                   <Container_Button>
                     <SubmitButton type="submit">
@@ -133,8 +137,8 @@ export default function Register() {
             )}
           </Formik>
         </RightForm>
-        </ContainerForm>
-        <Banner/>
-      </Wrapper>
+      </ContainerForm>
+      <Banner />
+    </Wrapper>
   );
 }
