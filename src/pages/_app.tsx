@@ -2,6 +2,7 @@ import React from "react";
 import { Provider as UrqlProvider, createClient } from "urql";
 
 import GlobalStyles from "../components/GlobalStyles";
+import Navbar from "../components/Navbar";
 import "../style/style.css";
 
 const urqlClient = createClient({
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   return (
     <UrqlProvider value={urqlClient}>
       <GlobalStyles />
+      <Navbar />
       <Component {...pageProps} />
     </UrqlProvider>
   );
