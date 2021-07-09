@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Formik, Form, FormikHelpers } from "formik";
+import { useRouter } from "next/router";
+import { Formik, Form } from "formik";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
 import { useRegisterMutation } from "../generated/graphql";
@@ -33,13 +34,15 @@ interface Values {
 }
 
 export default function Register() {
+  const router = useRouter();
   const [isError, setIsError] = useState(false);
 
-  const [, register] = useRegisterMutation();
+  const [register] = useRegisterMutation();
 
   const handleFormSubmit = async (values: Values) => {
-    const response = await register(values);
-    console.log(response);
+    const response = await register({ variables: values });
+
+    await router.push("/");
   };
 
   return (
