@@ -2,6 +2,7 @@ import React from "react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 
 import GlobalStyles from "../components/GlobalStyles";
+import Navbar from "../components/Navbar";
 import "../style/style.css";
 
 const client = new ApolloClient({
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
   return (
     <ApolloProvider client={client}>
       <GlobalStyles />
+      <Navbar />
       <Component {...pageProps} />
     </ApolloProvider>
   );
