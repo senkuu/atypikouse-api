@@ -1,0 +1,123 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Booking {
+    cancelReason: String!
+    createdAt: String!
+    endDate: DateTime!
+    id: Float!
+    occupant: User!
+    offer: Offer!
+    startDate: DateTime!
+    status: String!
+    updatedAt: String!
+}
+
+type Criteria {
+    additional: String!
+    criteriaType: String!
+    id: Float!
+    name: String!
+}
+
+type FieldError {
+    field: String!
+    message: String!
+}
+
+type Mutation {
+    addCriteriaOfferTypes(id: Float!, offerTypeIds: [Float!]): Criteria
+    addOfferCriterias(criteriaIds: [Float!], id: Float!): Offer
+    addOfferTypeCriterias(criteriaIds: [Float!], id: Float!): OfferType
+    changePassword(newPassword: String!, newPasswordConfirm: String!, token: String!): UserResponse!
+    createBooking(cancelReason: String!, endDate: DateTime!, occupantId: Float!, offerId: Float!, startDate: DateTime!, status: String!): Booking!
+    createCriteria(additional: String, criteriaType: String!, name: String!, offerTypeIds: [Float!]): Criteria!
+    createOffer(criteriaIds: [Float!], deleteReasons: String!, description: String!, latitude: Float!, longitude: Float!, offerTypeId: Float!, ownerId: Float!, status: String!, title: String!): Offer!
+    createOfferType(criteriaIds: [Float!], name: String!): OfferType!
+    deleteBooking(id: Float!): Boolean!
+    deleteCriteria(id: Float!): Boolean!
+    deleteOffer(id: Float!): Boolean!
+    deleteOfferType(id: Float!): Boolean!
+    forgotPassword(email: String!): Boolean!
+    login(options: LoginInput!): UserResponse!
+    logout: Boolean!
+    register(options: RegisterInput!): UserResponse!
+    removeCriteriaOfferTypes(id: Float!, offerTypeIds: [Float!]): Criteria
+    removeOfferCriterias(criteriaIds: [Float!], id: Float!): Offer
+    removeOfferTypeCriterias(criteriaIds: [Float!], id: Float!): OfferType
+    updateBooking(cancelReason: String, endDate: DateTime, id: Float!, startDate: DateTime, status: String): Booking
+    updateCriteria(additional: String, criteriaType: String, id: Float!, name: String, offerTypeIds: [Float!]): Criteria
+    updateOffer(criteriaIds: [Float!], deleteReason: String, description: String, id: Float!, latitude: Float, longitude: Float, offerTypeId: Float, ownerId: Float, status: String, title: String): Offer
+    updateOfferType(criteriaIds: [Float!], id: Float!, name: String): OfferType
+}
+
+type Offer {
+    bookings: [Booking!]!
+    createdAt: String!
+    deleteReason: String!
+    description: String!
+    id: Float!
+    latitude: Float!
+    longitude: Float!
+    offerType: OfferType!
+    owner: User!
+    status: String!
+    title: String!
+    updatedAt: String!
+}
+
+type OfferType {
+    createdAt: String!
+    id: Float!
+    name: String!
+    updatedAt: String!
+}
+
+type Query {
+    booking(id: Float!): Booking
+    bookings: [Booking!]!
+    criteria(id: Float!): Criteria
+    criterias: [Criteria!]!
+    hello: String!
+    me: User
+    offer(id: Float!): Offer
+    offerType(id: Float!): OfferType
+    offerTypes: [OfferType!]!
+    offers: [Offer!]!
+}
+
+type User {
+    createdAt: String!
+    email: String!
+    id: Float!
+    name: String!
+    surname: String!
+    updatedAt: String!
+    userType: String!
+}
+
+type UserResponse {
+    errors: [FieldError!]
+    user: User
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input RegisterInput {
+    email: String!
+    name: String!
+    password: String!
+    surname: String!
+    userType: String
+}
+
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime

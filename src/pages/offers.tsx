@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 function Offers() {
   return (
     <Wrapper>
-      <h1>test</h1>
+      <h1>Offers</h1>
     </Wrapper>
   );
 }
