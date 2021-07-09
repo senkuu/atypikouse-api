@@ -1,8 +1,12 @@
 import React from "react";
-import { Formik, Form, FormikHelpers } from "formik";
-import tw, { styled } from "twin.macro";
-import InputField from "../components/InputField";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
+import { Formik, Form } from "formik";
+import tw, { styled } from "twin.macro";
+
+import InputField from "../components/InputField";
+import { useLoginMutation } from "../generated/graphql";
 
 const Wrapper = tw.div`flex flex-wrap mb-2.5`;
 const ColLeft = styled.div`
@@ -28,11 +32,13 @@ interface Values {
 }
 
 export default function Login() {
-  const handleFormSubmit = async (
-    values: Values,
-    { setErrors }: FormikHelpers<Values>
-  ) => {
-    console.log(values);
+  const router = useRouter();
+  const [login] = useLoginMutation();
+
+  const handleFormSubmit = async (values: Values) => {
+    const response = await login({ variables: values });
+
+    await router.push("/");
   };
 
   return (
@@ -48,9 +54,9 @@ export default function Login() {
                 width={220}
                 height={140}
               />
-              <HeadLine>Créer votre compte !</HeadLine>
+              <HeadLine>Se connecter</HeadLine>
               <Paragraphe>
-                Entrez vos informations pour vous inscrire
+                Entrez vos informations pour vous connecter
               </Paragraphe>
             </RightFormCenter>
             <Formik
@@ -86,9 +92,7 @@ export default function Login() {
                   </Position>
                   <Position>
                     <Container_Button>
-                      <SubmitButton type="submit">
-                        S'inscrire maintenant
-                      </SubmitButton>
+                      <SubmitButton type="submit">Se connecter</SubmitButton>
                     </Container_Button>
                   </Position>
                 </Form>
