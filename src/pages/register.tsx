@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRegisterMutation } from "../generated/graphql";
 
 import InputField from "../components/InputField";
+import { useApolloClient } from "@apollo/client";
 
 const Wrapper = tw.div`flex flex-wrap mb-2.5`;
 const Banner = styled.div`
@@ -36,12 +37,14 @@ interface Values {
 export default function Register() {
   const router = useRouter();
   const [isError, setIsError] = useState(false);
+  const apolloClient = useApolloClient();
 
   const [register] = useRegisterMutation();
 
   const handleFormSubmit = async (values: Values) => {
     const response = await register({ variables: values });
 
+    apolloClient.resetStore();
     await router.push("/");
   };
 

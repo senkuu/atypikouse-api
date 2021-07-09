@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { useApolloClient } from "@apollo/client";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
 import Icon from "@material-ui/core/Icon";
-import { useMeQuery } from "../../generated/graphql";
+import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 
 const HeaderMenu = tw.header`p-4 dark:bg-white dark:text-gray-700`;
 const ContainerMenu = tw.div`container flex justify-between h-16 mx-auto md:justify-center md:space-x-8`;
@@ -15,10 +16,13 @@ const ButtonNav = tw.button`bg-white p-4 md:hidden`;
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, loading } = useMeQuery();
+  const [logout] = useLogoutMutation();
+  const { data, loading: meLoading } = useMeQuery();
+  const apolloClient = useApolloClient();
+
   let body = null;
 
-  if (loading) {
+  if (meLoading) {
   } else if (!data?.me) {
     body = (
       <>
@@ -73,7 +77,12 @@ export default function Nav() {
             <UlContainer>
               <LiContainer>
                 <Items href="#">Devenir proprietaire</Items>
-                <Items href="#">{`${data.me.surname} ${data.me.name}`}</Items>
+                <Items
+                  onClick={() => {
+                    logout();
+                    apolloClient.resetStore();
+                  }}
+                >{`${data.me.surname} ${data.me.name}`}</Items>
               </LiContainer>
             </UlContainer>
             <ButtonNav>

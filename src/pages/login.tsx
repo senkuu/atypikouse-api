@@ -7,6 +7,7 @@ import tw, { styled } from "twin.macro";
 
 import InputField from "../components/InputField";
 import { useLoginMutation } from "../generated/graphql";
+import { useApolloClient } from "@apollo/client";
 
 const Wrapper = tw.div`flex flex-wrap mb-2.5`;
 const ColLeft = styled.div`
@@ -34,10 +35,12 @@ interface Values {
 export default function Login() {
   const router = useRouter();
   const [login] = useLoginMutation();
+  const apolloClient = useApolloClient();
 
   const handleFormSubmit = async (values: Values) => {
     const response = await login({ variables: values });
 
+    apolloClient.resetStore();
     await router.push("/");
   };
 
