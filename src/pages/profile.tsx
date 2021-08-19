@@ -2,6 +2,7 @@ import React from "react";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
 import Icon from "@material-ui/core/Icon";
+import OfferCard from "../components/OfferCard";
 
 let RamdomImage = "https://picsum.photos/200/300";
 //  Banner
@@ -33,19 +34,19 @@ const PIcon = tw.p`text-sm  uppercase text-center font-semibold	text-white`;
 //Locations
 const LocationContainer = tw.div`w-full h-auto flex-wrap flex pt-16 pb-16`;
 const LocationHeadLine = tw.div`text-4xl text-gray-900 font-serif w-full text-left mb-10 text-center`;
-const LocationBox = tw.div`flex w-72 h-72 bg-white ml-auto mr-auto mb-5 flex-col cursor-pointer duration-500 shadow-md hover:shadow-xl`;
-const LocationImg = styled.div`
-  ${tw`w-full h-36 bg-blue-400 `}
-  background-image: url("${RamdomImage}");
-  background-size: 100% auto;
-`;
-const PriceContainer = tw.div`w-full h-auto bg-Green-default flex-row pr-2`;
-const LocationTitle = tw.div`text-xl text-gray-900 text-left pt-1 pl-3 font-serif`;
-const LocationPrice = tw.h2` text-xl font-bold text-white  text-right`;
-const PriceSpan = tw.h4`text-sm bottom-0`;
-const LocationAdress = tw.p`text-sm font-light pl-3`;
-const LocationDomaine = tw.a`text-base pb-1 pl-3 duration-500 hover:text-Green-light `;
-const Review = tw.div`w-full h-auto flex items-center p-1 pl-3`;
+// const LocationBox = tw.div`flex w-72 h-72 bg-white ml-auto mr-auto mb-5 flex-col cursor-pointer duration-500 shadow-md hover:shadow-xl`;
+// const LocationImg = styled.div`
+//   ${tw`w-full h-36 bg-blue-400 `}
+//   background-image: url("${RamdomImage}");
+//   background-size: 100% auto;
+// `;
+// const PriceContainer = tw.div`w-full h-auto bg-Green-default flex-row pr-2`;
+// const LocationTitle = tw.div`text-xl text-gray-900 text-left pt-1 pl-3 font-serif`;
+// const LocationPrice = tw.h2` text-xl font-bold text-white  text-right`;
+// const PriceSpan = tw.h4`text-sm bottom-0`;
+// const LocationAdress = tw.p`text-sm font-light pl-3`;
+// const LocationDomaine = tw.a`text-base pb-1 pl-3 duration-500 hover:text-Green-light `;
+// const Review = tw.div`w-full h-auto flex items-center p-1 pl-3`;
 //Maps
 
 const MapsContainer = tw.div`w-full h-auto flex flex-col mb-3`;
@@ -57,8 +58,6 @@ const LargeMaps = tw.div`hidden md:hidden lg:block m-auto p-5`;
 
 export default function Profile() {
   let DomaineTemplate = "Domaine de la roche Jague";
-  let LocationDateSettings = "/ Nuit(s)";
-  let Adress = "101 boulevard de l'Europe, Rouen (76)";
 
   return (
     <>
@@ -122,7 +121,10 @@ export default function Profile() {
       </AboutContainer>
       <LocationContainer>
         <LocationHeadLine>Toutes nos Locations</LocationHeadLine>
-        <LocationBox>
+        <OfferCard />
+        <OfferCard />
+        <OfferCard />
+        {/* <LocationBox>
           <LocationImg />
           <PriceContainer>
             <LocationPrice>
@@ -195,7 +197,7 @@ export default function Profile() {
             <Icon style={{ color: "#2B463C" }}>star</Icon>
             <Icon style={{ color: "gray" }}>starHalf</Icon>
           </Review>
-        </LocationBox>
+        </LocationBox> */}
       </LocationContainer>
       <MapsContainer>
         <MapsHeadLine>Domaine de la roche jague</MapsHeadLine>
@@ -234,4 +236,3 @@ export default function Profile() {
     </>
   );
 }
-

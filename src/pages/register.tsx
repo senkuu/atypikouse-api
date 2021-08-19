@@ -139,6 +139,9 @@ export default function Register() {
                     </SubmitButton>
                   </Container_Button>
                 </Position>
+                <div tw="w-full text-center font-medium	text-xs text-gray-700 ">
+                  <a href="/login">Déjà un compte chez nous ?</a>
+                </div>
               </Form>
             )}
           </Formik>

@@ -15,7 +15,7 @@ const Container = tw.div`container mx-auto flex flex-col justify-center p-6 sm:p
 
 const Title = tw.h2`font-serif text-5xl text-gray-800 md:text-6xl uppercase`;
 
-const GreenText = tw.span`text-green-500`;
+const GreenText = tw.span`text-Green-light`;
 
 const ResponsiveContainer = tw.div`flex flex-col mt-6 mb-4 gap-8 lg:mb-0 lg:flex-row lg:justify-between sm:mt-12`;
 

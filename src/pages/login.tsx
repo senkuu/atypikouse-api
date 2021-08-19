@@ -98,6 +98,9 @@ export default function Login() {
                       <SubmitButton type="submit">Se connecter</SubmitButton>
                     </Container_Button>
                   </Position>
+                  <div tw="w-full text-center font-medium	text-xs text-gray-700 ">
+                    <a href="/resetpassword">Mot de passe oublié ?</a>
+                  </div>
                 </Form>
               )}
             </Formik>
