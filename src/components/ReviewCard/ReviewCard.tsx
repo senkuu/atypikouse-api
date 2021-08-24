@@ -27,7 +27,7 @@ function ReviewCard(props: props) {
           <p tw="text-lg font-semibold">“{props.review}”</p>
         </blockquote>
         <figcaption tw="font-medium">
-          <div tw="text-green-600">{props.author.name}</div>
+          <div tw="text-Green-light">{props.author.name}</div>
           <div tw="text-gray-500">{props.author.location}</div>
         </figcaption>
       </div>
