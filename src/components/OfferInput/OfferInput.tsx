@@ -68,7 +68,7 @@ function OfferInput({ withFilters = false }: Props) {
                 name="depart"
                 type="date"
                 placeholder="Quand ?"
-                min={values.arrive}
+                min={values.arrive || new Date().toISOString().split("T")[0]}
                 required
               />
             </Container>
