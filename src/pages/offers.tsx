@@ -3,7 +3,7 @@ import tw, { styled } from "twin.macro";
 import OfferCard from "../components/OfferCard";
 import InputField from "../components/InputField";
 import { Formik, Form } from "formik";
-import { useOffersQuery } from "../generated/graphql";
+import { Offer, useOffersQuery } from "../generated/graphql";
 import OfferInput from "../components/OfferInput";
 import ModalContainer from "../components/Modal";
 
@@ -24,23 +24,20 @@ function Offers() {
     },
   });
 
-  const handleFormSubmit = async (values: Values) => {
-    console.log(values);
-  };
-
   if (!data && loading) {
     return <p>Loading</p>;
   }
 
+  if (data) {
+    console.log(data.offers);
+  }
   return (
     <Wrapper>
       <div tw="flex justify-center">
         <OfferInput withFilters />
       </div>
       <Headline>Si vous êtes flexible :</Headline>
-      {data && data.offers.map((offer) => <p>{offer.title}</p>)}
-      <OfferCard />
-      <OfferCard />
+      {data && data.offers.map((offer) => <OfferCard offer={offer as Offer} />)}
     </Wrapper>
   );
 }
