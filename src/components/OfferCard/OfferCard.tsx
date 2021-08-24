@@ -55,6 +55,10 @@ function OfferCard(props: Props) {
             <div>
               {props.offer.city.name} ({props.offer.city.departement.number})
             </div>
+            <div tw="text-base font-normal mx-2">·</div>
+            <div tw="text-gray-500 ml-1">
+              {props.offer.distance?.toFixed(0) + " km"}
+            </div>
           </div>
         </Col1>
         <BottomCol1 tw="col-start-1 row-start-3 space-y-3 px-4">
