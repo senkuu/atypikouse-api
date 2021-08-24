@@ -7,6 +7,7 @@ import InputField from "../InputField";
 
 import { Formik, Form } from "formik";
 import Filters from "../Filters";
+import { ValuesOfCorrectTypeRule } from "graphql";
 
 const Container = tw.div`flex sm:flex-row sm:w-1/3 px-3 mb-5`;
 const SignUpMobile = tw.button`block h-12 px-4 border-transparent rounded-md shadow-sm text-sm font-serif text-white bg-Green-default active:bg-Green-light ease-linear transition-all duration-150`;
@@ -17,9 +18,21 @@ interface Props {
 
 interface Values {
   where: string;
-  arrive: number;
-  depart: number;
+  arrive: string;
+  depart: string;
   voyageur: string;
+}
+
+function setMinDepartDate(arriveValue: string) {
+  let minDate: Date;
+  if (arriveValue !== "") {
+    minDate = new Date(arriveValue);
+  } else {
+    minDate = new Date();
+  }
+
+  minDate.setDate(minDate.getDate() + 1);
+  return minDate.toISOString().split("T")[0];
 }
 
 function OfferInput({ withFilters = false }: Props) {
@@ -32,8 +45,8 @@ function OfferInput({ withFilters = false }: Props) {
       <Formik
         initialValues={{
           where: "",
-          arrive: 0,
-          depart: 0,
+          arrive: new Date().toISOString().split("T")[0],
+          depart: "",
           voyageur: "",
         }}
         onSubmit={handleFormSubmit}
@@ -68,7 +81,7 @@ function OfferInput({ withFilters = false }: Props) {
                 name="depart"
                 type="date"
                 placeholder="Quand ?"
-                min={values.arrive || new Date().toISOString().split("T")[0]}
+                min={setMinDepartDate(values.arrive)}
                 required
               />
             </Container>
