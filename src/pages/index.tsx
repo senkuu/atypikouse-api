@@ -23,7 +23,7 @@ const ReviewsContainer = tw.div`flex flex-col gap-8 lg:items-center`;
 
 const ImageSquareContainer = tw.div`relative w-max`;
 
-const Square = tw.div`absolute bg-green-500 h-36 w-36`;
+const Square = tw.div`absolute bg-Green-default h-36 w-36`;
 
 const BottomLeftSquare = styled(Square)`
   left: -10px;
