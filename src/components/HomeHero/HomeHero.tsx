@@ -1,6 +1,7 @@
 import React from "react";
 
 import tw, { styled } from "twin.macro";
+import OfferInput from "../OfferInput";
 
 const Container = tw.div`relative w-screen h-screen overflow-x-hidden`;
 const BackgroundVideo = tw.video`object-cover w-full h-full`;
@@ -10,7 +11,7 @@ const Content = styled.div`
 
   @media (min-width: 768px) {
     padding: 0;
-    max-width: 50%;
+    max-width: 60%;
     position: absolute;
     top: 50%;
     left: 8%;
@@ -23,7 +24,7 @@ const TransparentGrayBackground = tw.div`h-screen w-screen bg-gray-800 bg-opacit
 
 const Headline = tw.h1`font-serif text-5xl text-center md:text-left md:text-6xl text-white uppercase`;
 
-const GreenText = tw.span`text-green-600`;
+const GreenText = tw.span`text-Green-light`;
 
 const Subline = tw.p`mt-6 font-sans text-white text-lg text-center md:text-left md:text-xl`;
 
@@ -35,9 +36,19 @@ function HomeHero() {
       <Container>
         <TransparentGrayBackground />
         <Content>
-          <Headline>Vous ne connaissez pas <GreenText>votre région</GreenText></Headline>
-          <Subline>Découvrez tous les secrets de votre région en vivant des expériences d'exception dans des lieux insolites</Subline>
-          <Button>Je découvre ma région</Button>
+          <Headline>
+            Vous ne connaissez pas <GreenText>votre région</GreenText>
+          </Headline>
+          <Subline>
+            Découvrez tous les secrets de votre région en vivant des expériences
+            d'exception dans des lieux insolites
+          </Subline>
+          <div tw="hidden w-screen md:block">
+            <OfferInput />
+          </div>
+          <div tw="md:hidden">
+            <Button type="submit">Voir les annonces</Button>
+          </div>
         </Content>
         <BackgroundVideo
           className="videoTag"
