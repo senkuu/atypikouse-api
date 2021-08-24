@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import tw, { styled } from "twin.macro";
-import Image from "next/image";
-import Icon from "@material-ui/core/Icon";
 import OfferCard from "../components/OfferCard";
-import { useApolloClient } from "@apollo/client";
 import InputField from "../components/InputField";
 import { Formik, Form } from "formik";
+import { useOffersQuery } from "../generated/graphql";
 
 const Wrapper = styled.div`
   ${tw`w-screen`}
@@ -23,9 +21,21 @@ interface Values {
 }
 
 function Offers() {
+  const { data, loading, error } = useOffersQuery({
+    variables: {
+      cityId: 75056,
+      getCities: true,
+      getDepartements: true,
+    },
+  });
+
   const handleFormSubmit = async (values: Values) => {
     console.log(values);
   };
+
+  if (!data && loading) {
+    return <p>Loading</p>;
+  }
 
   return (
     <Wrapper>
@@ -87,6 +97,7 @@ function Offers() {
         )}
       </Formik>
       <Headline>Si vous êtes flexible :</Headline>
+      {data && data.offers.map((offer) => <p>{offer.title}</p>)}
       <OfferCard />
       <OfferCard />
     </Wrapper>

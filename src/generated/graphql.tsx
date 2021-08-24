@@ -21,6 +21,7 @@ export type Booking = {
   id: Scalars['Float'];
   offer: Offer;
   occupant: User;
+  review?: Maybe<Review>;
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   status: Scalars['String'];
@@ -29,14 +30,47 @@ export type Booking = {
   updatedAt: Scalars['String'];
 };
 
+export type City = {
+  __typename?: 'City';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  departement: Departement;
+  offers: Array<Offer>;
+  intercommunalite: Scalars['Float'];
+  population: Scalars['Float'];
+  users: Array<User>;
+};
+
+export type CoordinatesInput = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
 export type Criteria = {
   __typename?: 'Criteria';
   id: Scalars['Float'];
   name: Scalars['String'];
   additional: Scalars['String'];
   criteriaType: Scalars['String'];
+  offerCriterias: Array<OfferCriteria>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
+export type CriteriaInput = {
+  id: Scalars['Float'];
+  value: Scalars['String'];
+};
+
+
+export type Departement = {
+  __typename?: 'Departement';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  number: Scalars['String'];
+  region: Region;
+  cities: Array<City>;
+};
 
 export type FieldError = {
   __typename?: 'FieldError';
@@ -69,7 +103,7 @@ export type Mutation = {
   addCriteriaOfferTypes?: Maybe<Criteria>;
   removeCriteriaOfferTypes?: Maybe<Criteria>;
   deleteCriteria: Scalars['Boolean'];
-  createOfferType: OfferType;
+  createOfferType: OfferTypeResponse;
   updateOfferType?: Maybe<OfferType>;
   addOfferTypeCriterias?: Maybe<OfferType>;
   removeOfferTypeCriterias?: Maybe<OfferType>;
@@ -80,11 +114,11 @@ export type Mutation = {
 export type MutationCreateOfferArgs = {
   status: Scalars['String'];
   deleteReasons: Scalars['String'];
-  criteriaIds?: Maybe<Array<Scalars['Float']>>;
   offerTypeId: Scalars['Float'];
   ownerId: Scalars['Float'];
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
+  cityId: Scalars['Float'];
+  address?: Maybe<Scalars['String']>;
+  coordinates?: Maybe<CoordinatesInput>;
   description: Scalars['String'];
   title: Scalars['String'];
 };
@@ -93,11 +127,9 @@ export type MutationCreateOfferArgs = {
 export type MutationUpdateOfferArgs = {
   deleteReason?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['String']>;
-  criteriaIds?: Maybe<Array<Scalars['Float']>>;
   offerTypeId?: Maybe<Scalars['Float']>;
   ownerId?: Maybe<Scalars['Float']>;
-  longitude?: Maybe<Scalars['Float']>;
-  latitude?: Maybe<Scalars['Float']>;
+  coordinates?: Maybe<CoordinatesInput>;
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
@@ -105,14 +137,14 @@ export type MutationUpdateOfferArgs = {
 
 
 export type MutationAddOfferCriteriasArgs = {
-  criteriaIds?: Maybe<Array<Scalars['Float']>>;
-  id: Scalars['Float'];
+  criterias?: Maybe<Array<CriteriaInput>>;
+  offerId: Scalars['Float'];
 };
 
 
 export type MutationRemoveOfferCriteriasArgs = {
   criteriaIds?: Maybe<Array<Scalars['Float']>>;
-  id: Scalars['Float'];
+  offerId: Scalars['Float'];
 };
 
 
@@ -230,26 +262,108 @@ export type MutationDeleteOfferTypeArgs = {
   id: Scalars['Float'];
 };
 
+export type Notice = {
+  __typename?: 'Notice';
+  id: Scalars['Float'];
+  user: User;
+  linkedUser: User;
+  placeholder1: Scalars['String'];
+  placeholder2: Scalars['String'];
+  placeholder3: Scalars['String'];
+  placeholder4: Scalars['String'];
+  placeholder5: Scalars['String'];
+  url: Scalars['String'];
+  urlType: Scalars['String'];
+  noticeType: NoticeType;
+  createdAt: Scalars['String'];
+};
+
+export type NoticeType = {
+  __typename?: 'NoticeType';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  defaultText: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type Offer = {
   __typename?: 'Offer';
   id: Scalars['Float'];
   title: Scalars['String'];
   description: Scalars['String'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
+  address: Scalars['String'];
+  latitude?: Maybe<Scalars['Float']>;
+  longitude?: Maybe<Scalars['Float']>;
+  touristTax: Scalars['Float'];
+  distance?: Maybe<Scalars['Float']>;
+  sortScore?: Maybe<Scalars['Float']>;
+  averageRating?: Maybe<Scalars['Float']>;
+  city: City;
   owner: User;
   offerType: OfferType;
   bookings: Array<Booking>;
+  photos: Array<Photo>;
+  offerCriterias: Array<OfferCriteria>;
+  planningData: Array<Planning>;
   status: Scalars['String'];
   deleteReason: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
 
+export type OfferCriteria = {
+  __typename?: 'OfferCriteria';
+  id: Scalars['Float'];
+  value: Scalars['String'];
+  offer: Offer;
+  criteria: Criteria;
+};
+
 export type OfferType = {
   __typename?: 'OfferType';
   id: Scalars['Float'];
   name: Scalars['String'];
+  offers: Array<Offer>;
+  criterias: Array<Criteria>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type OfferTypeResponse = {
+  __typename?: 'OfferTypeResponse';
+  errors?: Maybe<Array<FieldError>>;
+  offerType?: Maybe<OfferType>;
+};
+
+export type Photo = {
+  __typename?: 'Photo';
+  id: Scalars['Float'];
+  url: Scalars['String'];
+  user: User;
+  description: Scalars['String'];
+  booking: Booking;
+  offer: Offer;
+  photoType: PhotoType;
+};
+
+export type PhotoType = {
+  __typename?: 'PhotoType';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type Planning = {
+  __typename?: 'Planning';
+  id: Scalars['Float'];
+  offer: Offer;
+  name: Scalars['String'];
+  description: Scalars['String'];
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -266,6 +380,20 @@ export type Query = {
   criteria?: Maybe<Criteria>;
   offerTypes: Array<OfferType>;
   offerType?: Maybe<OfferType>;
+  cities?: Maybe<Array<City>>;
+  city?: Maybe<City>;
+  regions?: Maybe<Array<Region>>;
+  region?: Maybe<Region>;
+  departements?: Maybe<Array<Departement>>;
+  departement?: Maybe<Departement>;
+};
+
+
+export type QueryOffersArgs = {
+  getDepartements?: Maybe<Scalars['Boolean']>;
+  getCities?: Maybe<Scalars['Boolean']>;
+  cityId?: Maybe<Scalars['Float']>;
+  coordinates?: Maybe<CoordinatesInput>;
 };
 
 
@@ -288,6 +416,69 @@ export type QueryOfferTypeArgs = {
   id: Scalars['Float'];
 };
 
+
+export type QueryCitiesArgs = {
+  regions?: Maybe<Array<Scalars['Float']>>;
+  departements?: Maybe<Array<Scalars['Float']>>;
+  orderBy?: Maybe<Scalars['String']>;
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getRegions?: Maybe<Scalars['Boolean']>;
+  getDepartements?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryCityArgs = {
+  getUsers?: Maybe<Scalars['Boolean']>;
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getRegion?: Maybe<Scalars['Boolean']>;
+  getDepartement?: Maybe<Scalars['Boolean']>;
+  id: Scalars['Float'];
+};
+
+
+export type QueryRegionsArgs = {
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getCities?: Maybe<Scalars['Boolean']>;
+  getDepartements?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryRegionArgs = {
+  getUsers?: Maybe<Scalars['Boolean']>;
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getCities?: Maybe<Scalars['Boolean']>;
+  getDepartements?: Maybe<Scalars['Boolean']>;
+  id: Scalars['Float'];
+};
+
+
+export type QueryDepartementsArgs = {
+  orderBy?: Maybe<Scalars['String']>;
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getCities?: Maybe<Scalars['Boolean']>;
+  getRegions?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryDepartementArgs = {
+  getUsers?: Maybe<Scalars['Boolean']>;
+  getOffers?: Maybe<Scalars['Boolean']>;
+  getCities?: Maybe<Scalars['Boolean']>;
+  getRegion?: Maybe<Scalars['Boolean']>;
+  number?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type Region = {
+  __typename?: 'Region';
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  departements: Array<Departement>;
+};
+
 export type RegisterInput = {
   name: Scalars['String'];
   surname: Scalars['String'];
@@ -296,12 +487,28 @@ export type RegisterInput = {
   userType?: Maybe<Scalars['String']>;
 };
 
+export type Review = {
+  __typename?: 'Review';
+  id: Scalars['Float'];
+  text: Scalars['String'];
+  booking: Booking;
+  rating: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
   email: Scalars['String'];
   name: Scalars['String'];
   surname: Scalars['String'];
+  offers: Array<Offer>;
+  bookings: Array<Booking>;
+  city: City;
+  notices: Array<Notice>;
+  linkedNotices: Array<Notice>;
+  photo: Photo;
   userType: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -316,6 +523,19 @@ export type UserResponse = {
 export type BaseErrorFragment = (
   { __typename?: 'FieldError' }
   & Pick<FieldError, 'field' | 'message'>
+);
+
+export type BaseOfferFragment = (
+  { __typename?: 'Offer' }
+  & Pick<Offer, 'id' | 'title' | 'description' | 'distance' | 'sortScore' | 'averageRating' | 'latitude' | 'longitude'>
+  & { city: (
+    { __typename?: 'City' }
+    & Pick<City, 'name' | 'id'>
+    & { departement: (
+      { __typename?: 'Departement' }
+      & Pick<Departement, 'number'>
+    ) }
+  ) }
 );
 
 export type BaseUserFragment = (
@@ -395,6 +615,40 @@ export type MeQuery = (
   )> }
 );
 
+export type OffersQueryVariables = Exact<{
+  cityId: Scalars['Float'];
+  getCities: Scalars['Boolean'];
+  getDepartements: Scalars['Boolean'];
+}>;
+
+
+export type OffersQuery = (
+  { __typename?: 'Query' }
+  & { offers: Array<(
+    { __typename?: 'Offer' }
+    & BaseOfferFragment
+  )> }
+);
+
+export const BaseOfferFragmentDoc = gql`
+    fragment BaseOffer on Offer {
+  id
+  title
+  description
+  city {
+    name
+    id
+    departement {
+      number
+    }
+  }
+  distance
+  sortScore
+  averageRating
+  latitude
+  longitude
+}
+    `;
 export const BaseErrorFragmentDoc = gql`
     fragment BaseError on FieldError {
   field
@@ -568,3 +822,44 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const OffersDocument = gql`
+    query Offers($cityId: Float!, $getCities: Boolean!, $getDepartements: Boolean!) {
+  offers(
+    cityId: $cityId
+    getCities: $getCities
+    getDepartements: $getDepartements
+  ) {
+    ...BaseOffer
+  }
+}
+    ${BaseOfferFragmentDoc}`;
+
+/**
+ * __useOffersQuery__
+ *
+ * To run a query within a React component, call `useOffersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOffersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOffersQuery({
+ *   variables: {
+ *      cityId: // value for 'cityId'
+ *      getCities: // value for 'getCities'
+ *      getDepartements: // value for 'getDepartements'
+ *   },
+ * });
+ */
+export function useOffersQuery(baseOptions: Apollo.QueryHookOptions<OffersQuery, OffersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OffersQuery, OffersQueryVariables>(OffersDocument, options);
+      }
+export function useOffersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OffersQuery, OffersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OffersQuery, OffersQueryVariables>(OffersDocument, options);
+        }
+export type OffersQueryHookResult = ReturnType<typeof useOffersQuery>;
+export type OffersLazyQueryHookResult = ReturnType<typeof useOffersLazyQuery>;
+export type OffersQueryResult = Apollo.QueryResult<OffersQuery, OffersQueryVariables>;
