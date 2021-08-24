@@ -3,6 +3,7 @@ import { useApolloClient } from "@apollo/client";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
 import Icon from "@material-ui/core/Icon";
+import { Offer } from "../../generated/graphql";
 
 const Wrapper = styled.div`
   ${tw`w-screen`}
@@ -15,7 +16,12 @@ const BottomCol1 = tw.div`col-start-1 row-start-3 space-y-3 px-4`;
 const Col2 = tw.div`col-start-1 row-start-1 flex sm:col-start-2 sm:row-span-3`;
 const GridCol2 = tw.div`w-full grid grid-cols-3 grid-rows-2 gap-2`;
 const FirstImage = tw.div`relative col-span-3 row-span-2 md:col-span-2`;
-function OfferCard() {
+
+interface Props {
+  offer: Offer;
+}
+
+function OfferCard(props: Props) {
   const id = 1;
   return (
     <Wrapper>
@@ -25,7 +31,7 @@ function OfferCard() {
             Séjour unique
           </p>
           <h2 tw="text-xl font-semibold text-white sm:text-2xl sm:leading-7 sm:text-black md:text-3xl">
-            Gîte au bord du lac
+            {props.offer.title}
           </h2>
         </Description>
         <Col1>
@@ -39,11 +45,16 @@ function OfferCard() {
               <path d="M9.05 3.691c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118l-2.8-2.034c-.784-.57-.381-1.81.587-1.81H7.03a1 1 0 00.95-.69L9.05 3.69z" />
             </svg>
             <div tw="ml-1">
-              <span tw="text-black">4.78</span>
-              <span tw="sm:hidden md:inline">(54)</span>
+              <span tw="text-black">
+                {props.offer.averageRating
+                  ? Math.round(props.offer.averageRating * 100) / 100
+                  : "Aucune note"}
+              </span>
             </div>
             <div tw="text-base font-normal mx-2">·</div>
-            <div>Rhône-Alpes, 15 km de Lyon</div>
+            <div>
+              {props.offer.city.name} ({props.offer.city.departement.number})
+            </div>
           </div>
         </Col1>
         <BottomCol1 tw="col-start-1 row-start-3 space-y-3 px-4">
