@@ -32,6 +32,7 @@ interface Values {
   surname: string;
   email: string;
   password: string;
+  userType: string;
 }
 
 export default function Register() {
@@ -71,6 +72,7 @@ export default function Register() {
               surname: "",
               email: "",
               password: "",
+              userType: "default",
             }}
             onSubmit={handleFormSubmit}
           >
