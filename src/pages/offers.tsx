@@ -6,6 +6,7 @@ import { Formik, Form } from "formik";
 import { Offer, useOffersQuery } from "../generated/graphql";
 import OfferInput from "../components/OfferInput";
 import ModalContainer from "../components/Modal";
+import Link from "next/link";
 
 const Wrapper = styled.div`
   ${tw`w-screen`}
@@ -37,7 +38,14 @@ function Offers() {
         <OfferInput withFilters />
       </div>
       <Headline>Si vous êtes flexible :</Headline>
-      {data && data.offers.map((offer) => <OfferCard offer={offer as Offer} />)}
+      {data &&
+        data.offers.map((offer) => (
+          <Link href={`/offers/${offer.id}`}>
+            <div tw="cursor-pointer">
+              <OfferCard offer={offer as Offer} />
+            </div>
+          </Link>
+        ))}
     </Wrapper>
   );
 }

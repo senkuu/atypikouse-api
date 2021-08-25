@@ -25,7 +25,7 @@ function Filters() {
 
   return (
     <>
-      <ModalContainer Title="Nos filtres">
+      <ModalContainer Title="Nos filtres" Button="Filtres">
         <div tw="grid grid-cols-2 grid-rows-2 gap-0	">
           {filtres.map((filtre, index) => (
             <>

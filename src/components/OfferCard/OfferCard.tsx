@@ -57,7 +57,7 @@ function OfferCard(props: Props) {
             </div>
             <div tw="text-base font-normal mx-2">·</div>
             <div tw="text-gray-500 ml-1">
-              {props.offer.distance?.toFixed(0) + " km"}
+              à {props.offer.distance?.toFixed(0)} km de votre recherche
             </div>
           </div>
         </Col1>
