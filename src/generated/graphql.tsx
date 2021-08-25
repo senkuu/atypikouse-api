@@ -615,6 +615,19 @@ export type MeQuery = (
   )> }
 );
 
+export type OfferQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type OfferQuery = (
+  { __typename?: 'Query' }
+  & { offer?: Maybe<(
+    { __typename?: 'Offer' }
+    & BaseOfferFragment
+  )> }
+);
+
 export type OffersQueryVariables = Exact<{
   cityId: Scalars['Float'];
   getCities: Scalars['Boolean'];
@@ -822,6 +835,41 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const OfferDocument = gql`
+    query Offer($id: Float!) {
+  offer(id: $id) {
+    ...BaseOffer
+  }
+}
+    ${BaseOfferFragmentDoc}`;
+
+/**
+ * __useOfferQuery__
+ *
+ * To run a query within a React component, call `useOfferQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOfferQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOfferQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOfferQuery(baseOptions: Apollo.QueryHookOptions<OfferQuery, OfferQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OfferQuery, OfferQueryVariables>(OfferDocument, options);
+      }
+export function useOfferLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OfferQuery, OfferQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OfferQuery, OfferQueryVariables>(OfferDocument, options);
+        }
+export type OfferQueryHookResult = ReturnType<typeof useOfferQuery>;
+export type OfferLazyQueryHookResult = ReturnType<typeof useOfferLazyQuery>;
+export type OfferQueryResult = Apollo.QueryResult<OfferQuery, OfferQueryVariables>;
 export const OffersDocument = gql`
     query Offers($cityId: Float!, $getCities: Boolean!, $getDepartements: Boolean!) {
   offers(

@@ -45,6 +45,9 @@ export default function Register() {
     const response = await register({ variables: values });
 
     apolloClient.resetStore();
+    if (response === null) {
+      await router.push("/register");
+    }
     await router.push("/");
   };
 
