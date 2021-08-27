@@ -1,3 +1,4 @@
 import OfferInput from "./OfferInput"
 
-export default OfferInput
+export default OfferInput;
+

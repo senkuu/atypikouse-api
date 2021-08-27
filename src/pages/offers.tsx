@@ -4,7 +4,7 @@ import OfferCard from "../components/OfferCard";
 import InputField from "../components/InputField";
 import { Formik, Form } from "formik";
 import { Offer, useOffersQuery } from "../generated/graphql";
-import OfferInput from "../components/OfferInput";
+import OfferInput from "../components/OffersInput";
 import ModalContainer from "../components/Modal";
 import Link from "next/link";
 

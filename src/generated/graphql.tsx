@@ -21,7 +21,11 @@ export type Booking = {
   id: Scalars['Float'];
   offer: Offer;
   occupant: User;
-  review?: Maybe<Review>;
+  review: Review;
+  adults: Scalars['Float'];
+  children: Scalars['Float'];
+  priceHT: Scalars['Float'];
+  priceTTC: Scalars['Float'];
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   status: Scalars['String'];
@@ -36,9 +40,7 @@ export type City = {
   name: Scalars['String'];
   departement: Departement;
   offers: Array<Offer>;
-  intercommunalite: Scalars['Float'];
   population: Scalars['Float'];
-  users: Array<User>;
 };
 
 export type CoordinatesInput = {
@@ -113,10 +115,13 @@ export type Mutation = {
 
 export type MutationCreateOfferArgs = {
   status: Scalars['String'];
-  deleteReasons: Scalars['String'];
+  deleteReason: Scalars['String'];
   offerTypeId: Scalars['Float'];
   ownerId: Scalars['Float'];
   cityId: Scalars['Float'];
+  priceTTC: Scalars['Float'];
+  priceHT: Scalars['Float'];
+  touristTax: Scalars['Float'];
   address?: Maybe<Scalars['String']>;
   coordinates?: Maybe<CoordinatesInput>;
   description: Scalars['String'];
@@ -129,6 +134,10 @@ export type MutationUpdateOfferArgs = {
   status?: Maybe<Scalars['String']>;
   offerTypeId?: Maybe<Scalars['Float']>;
   ownerId?: Maybe<Scalars['Float']>;
+  priceTTC?: Maybe<Scalars['Float']>;
+  priceHT?: Maybe<Scalars['Float']>;
+  touristTax?: Maybe<Scalars['Float']>;
+  address?: Maybe<Scalars['String']>;
   coordinates?: Maybe<CoordinatesInput>;
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -180,6 +189,10 @@ export type MutationCreateBookingArgs = {
   status: Scalars['String'];
   endDate: Scalars['DateTime'];
   startDate: Scalars['DateTime'];
+  priceTTC: Scalars['Float'];
+  priceHT: Scalars['Float'];
+  children: Scalars['Float'];
+  adults: Scalars['Float'];
   occupantId: Scalars['Float'];
   offerId: Scalars['Float'];
 };
@@ -296,6 +309,8 @@ export type Offer = {
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   touristTax: Scalars['Float'];
+  priceHT: Scalars['Float'];
+  priceTTC: Scalars['Float'];
   distance?: Maybe<Scalars['Float']>;
   sortScore?: Maybe<Scalars['Float']>;
   averageRating?: Maybe<Scalars['Float']>;
@@ -485,6 +500,7 @@ export type RegisterInput = {
   email: Scalars['String'];
   password: Scalars['String'];
   userType?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
 };
 
 export type Review = {
@@ -503,13 +519,14 @@ export type User = {
   email: Scalars['String'];
   name: Scalars['String'];
   surname: Scalars['String'];
+  description: Scalars['String'];
   offers: Array<Offer>;
   bookings: Array<Booking>;
-  city: City;
   notices: Array<Notice>;
   linkedNotices: Array<Notice>;
   photo: Photo;
   userType: Scalars['String'];
+  status: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -527,7 +544,7 @@ export type BaseErrorFragment = (
 
 export type BaseOfferFragment = (
   { __typename?: 'Offer' }
-  & Pick<Offer, 'id' | 'title' | 'description' | 'distance' | 'sortScore' | 'averageRating' | 'latitude' | 'longitude'>
+  & Pick<Offer, 'id' | 'title' | 'description' | 'distance' | 'sortScore' | 'averageRating' | 'latitude' | 'longitude' | 'priceTTC'>
   & { city: (
     { __typename?: 'City' }
     & Pick<City, 'name' | 'id'>
@@ -660,6 +677,7 @@ export const BaseOfferFragmentDoc = gql`
   averageRating
   latitude
   longitude
+  priceTTC
 }
     `;
 export const BaseErrorFragmentDoc = gql`

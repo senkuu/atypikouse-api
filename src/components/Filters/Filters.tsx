@@ -6,7 +6,7 @@ import OfferCard from "../OfferCard";
 import { useApolloClient } from "@apollo/client";
 import InputField from "../InputField";
 import { Formik, Form } from "formik";
-import OfferInput from "../OfferInput";
+import OfferInput from "../OffersInput";
 import ModalContainer from "../Modal";
 
 const Checkbox = tw.input`w-4 h-4 bg-black text-white border-2 border-Green-light`;
