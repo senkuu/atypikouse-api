@@ -552,6 +552,12 @@ export type BaseOfferFragment = (
       { __typename?: 'Departement' }
       & Pick<Departement, 'number'>
     ) }
+  ), offerType: (
+    { __typename?: 'OfferType' }
+    & Pick<OfferType, 'id' | 'name'>
+  ), owner: (
+    { __typename?: 'User' }
+    & Pick<User, 'name'>
   ) }
 );
 
@@ -678,6 +684,13 @@ export const BaseOfferFragmentDoc = gql`
   latitude
   longitude
   priceTTC
+  offerType {
+    id
+    name
+  }
+  owner {
+    name
+  }
 }
     `;
 export const BaseErrorFragmentDoc = gql`

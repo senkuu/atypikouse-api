@@ -125,9 +125,8 @@ export default function OfferInput(props: props) {
                   required
                 />
               </Container>
-              <Link href={`/login`}>
-                <BlockedButton type="submit">Connectez-vous</BlockedButton>
-              </Link>
+
+              <BlockedButton type="submit">Connectez-vous</BlockedButton>
             </Form>
           )}
         </Formik>
