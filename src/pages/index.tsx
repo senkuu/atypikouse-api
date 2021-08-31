@@ -5,6 +5,7 @@ import tw, { styled } from "twin.macro";
 
 import HomeHero from "../components/HomeHero";
 import ReviewCard from "../components/ReviewCard";
+import Suggestions from "../components/Suggestions";
 
 const MainContainer = styled.main`
   ${tw`w-screen`}
@@ -13,7 +14,7 @@ const MainContainer = styled.main`
 
 const Container = tw.div`container mx-auto flex flex-col justify-center p-6 sm:py-12 lg:px-24 lg:py-24`;
 
-const Title = tw.h2`font-serif text-5xl text-gray-800 md:text-6xl uppercase`;
+const Title = tw.h2`font-serif text-2xl text-gray-800 md:text-5xl uppercase`;
 
 const GreenText = tw.span`text-Green-light`;
 
@@ -56,8 +57,8 @@ export default function Home() {
                 <Image
                   src="/landing-left.png"
                   alt="Photo de maison atypique"
-                  width={557}
-                  height={371}
+                  width={450}
+                  height={300}
                 />
               </ImageSquareContainer>
               <ImageSquareContainer>
@@ -65,8 +66,8 @@ export default function Home() {
                 <Image
                   src="/landing-right.jpg"
                   alt="Photo de maison atypique"
-                  width={557}
-                  height={371}
+                  width={450}
+                  height={300}
                 />
               </ImageSquareContainer>
             </ResponsiveContainer>
@@ -118,6 +119,7 @@ export default function Home() {
             </ReviewsContainer>
           </section>
         </Container>
+        <Suggestions />
       </MainContainer>
     </>
   );
