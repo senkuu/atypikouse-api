@@ -1,13 +1,8 @@
-import React, { useState } from "react";
-import tw, { styled } from "twin.macro";
-import Image from "next/image";
-import Icon from "@material-ui/core/Icon";
-import { useApolloClient } from "@apollo/client";
+import React from "react";
+import tw from "twin.macro";
 import InputField from "../InputField";
-
 import { Formik, Form } from "formik";
 import Filters from "../Filters";
-import { ValuesOfCorrectTypeRule } from "graphql";
 
 const Container = tw.div`flex sm:flex-row sm:w-1/3 px-3 mb-5`;
 const SignUpMobile = tw.button`block h-12 px-4 border-transparent rounded-md shadow-sm text-sm font-serif text-white bg-Green-default active:bg-Green-light ease-linear transition-all duration-150`;
