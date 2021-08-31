@@ -6,8 +6,9 @@ import { Formik, Form } from "formik";
 import tw, { styled } from "twin.macro";
 
 import InputField from "../components/InputField";
-import { useLoginMutation } from "../generated/graphql";
+import { useLoginMutation, useMeQuery } from "../generated/graphql";
 import { useApolloClient } from "@apollo/client";
+import CancelAccess from "../components/CancelAccess";
 
 const Wrapper = tw.div`flex flex-wrap mb-2.5`;
 const ColLeft = styled.div`
@@ -36,7 +37,8 @@ export default function Login() {
   const router = useRouter();
   const [login] = useLoginMutation();
   const apolloClient = useApolloClient();
-
+  const { data, loading: meLoading } = useMeQuery();
+  let body = null;
   const handleFormSubmit = async (values: Values) => {
     const response = await login({ variables: values });
 
@@ -44,8 +46,9 @@ export default function Login() {
     await router.push("/");
   };
 
-  return (
-    <>
+  if (meLoading) {
+  } else if (!data?.me) {
+    body = (
       <Wrapper>
         <ColLeft />
         <ColRight>
@@ -107,6 +110,17 @@ export default function Login() {
           </RightForm>
         </ColRight>
       </Wrapper>
-    </>
-  );
+    );
+  } else {
+    body = (
+      <>
+        <CancelAccess
+          userName={data.me.name}
+          title="Il semble que vous soyez déjà connecter"
+          details="veuillez retourner sur la page d'accueil"
+        />
+      </>
+    );
+  }
+  return body;
 }
