@@ -1,7 +1,6 @@
 import React from "react";
-import Image from "next/image";
 
-import tw, { styled } from "twin.macro";
+import tw from "twin.macro";
 
 interface Author {
   name: string;

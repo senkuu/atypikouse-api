@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Formik, Form } from "formik";
 import tw, { styled } from "twin.macro";
-import Image from "next/image";
 import { useRegisterMutation } from "../generated/graphql";
 import InputField from "../components/InputField";
 import { useApolloClient } from "@apollo/client";

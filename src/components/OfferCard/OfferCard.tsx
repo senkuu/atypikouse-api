@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { useApolloClient } from "@apollo/client";
+import React from "react";
 import tw, { styled } from "twin.macro";
-import Image from "next/image";
 import Icon from "@material-ui/core/Icon";
 import { Offer } from "../../generated/graphql";
 

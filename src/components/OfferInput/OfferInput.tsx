@@ -3,7 +3,6 @@ import tw from "twin.macro";
 import InputField from "../InputField";
 import { Formik, Form } from "formik";
 import { useCreateBookingMutation, useMeQuery } from "../../generated/graphql";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import tw, { styled } from "twin.macro";
+import React from "react";
+import tw from "twin.macro";
 import Image from "next/image";
-import Icon from "@material-ui/core/Icon";
 
 const Footer = tw.footer`w-full bg-Green-default text-white`;
 const Container = tw.div`xl:px-40 pb-12 lg:px-20 md:px-10 sm:px-5 px-10`;

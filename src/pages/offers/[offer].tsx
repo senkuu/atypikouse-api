@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import tw, { styled } from "twin.macro";
-import { Offer, useOfferQuery } from "../../generated/graphql";
+import { useOfferQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
 import Icon from "@material-ui/core/Icon";
 import ModalContainer from "../../components/Modal";

@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { Formik, Form } from "formik";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
 import { Icon } from "@material-ui/core";

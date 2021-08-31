@@ -1,5 +1,5 @@
 import React, { Children, useState } from "react";
-import tw, { styled } from "twin.macro";
+import tw from "twin.macro";
 
 const Button = tw.button` border-black border-2 px-3 py-2 text-lg md:text-lg text-black shadow-md mt-3 mb-2 mr-3 hover:text-gray-800 hover:border-gray-900 font-sans`;
 const Container = tw.div`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`;

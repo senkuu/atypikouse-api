@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { Formik, Form } from "formik";
+import React from "react";
 import tw, { styled } from "twin.macro";
 import { useMeQuery } from "../generated/graphql";
 import InformationsForm from "../components/InformationsForm";
