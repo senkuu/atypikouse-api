@@ -97,6 +97,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
+  updateUser?: Maybe<UserResponse>;
   createBooking: Booking;
   updateBooking?: Maybe<Booking>;
   deleteBooking: Scalars['Boolean'];
@@ -181,6 +182,18 @@ export type MutationChangePasswordArgs = {
   newPasswordConfirm: Scalars['String'];
   newPassword: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  status?: Maybe<Scalars['String']>;
+  userType?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
 };
 
 
@@ -519,7 +532,8 @@ export type User = {
   email: Scalars['String'];
   name: Scalars['String'];
   surname: Scalars['String'];
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
   offers: Array<Offer>;
   bookings: Array<Booking>;
   notices: Array<Notice>;
@@ -563,7 +577,7 @@ export type BaseOfferFragment = (
 
 export type BaseUserFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'name' | 'surname' | 'email'>
+  & Pick<User, 'id' | 'name' | 'surname' | 'email' | 'description' | 'website'>
 );
 
 export type BaseUserResponseFragment = (
@@ -655,6 +669,30 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['Float'];
+  website: Scalars['String'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  surname: Scalars['String'];
+  email: Scalars['String'];
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser?: Maybe<(
+    { __typename?: 'UserResponse' }
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'website' | 'description' | 'name' | 'surname' | 'email'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  )> }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -733,6 +771,8 @@ export const BaseUserFragmentDoc = gql`
   name
   surname
   email
+  description
+  website
 }
     `;
 export const BaseUserResponseFragmentDoc = gql`
@@ -929,6 +969,62 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation updateUser($id: Float!, $website: String!, $description: String!, $name: String!, $surname: String!, $email: String!) {
+  updateUser(
+    id: $id
+    website: $website
+    description: $description
+    name: $name
+    surname: $surname
+    email: $email
+  ) {
+    user {
+      id
+      website
+      description
+      name
+      surname
+      email
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      website: // value for 'website'
+ *      description: // value for 'description'
+ *      name: // value for 'name'
+ *      surname: // value for 'surname'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
