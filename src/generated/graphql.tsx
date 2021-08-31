@@ -636,6 +636,8 @@ export type RegisterMutationVariables = Exact<{
   name: Scalars['String'];
   surname: Scalars['String'];
   password: Scalars['String'];
+  userType: Scalars['String'];
+  status: Scalars['String'];
 }>;
 
 
@@ -882,9 +884,9 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $name: String!, $surname: String!, $password: String!) {
+    mutation Register($email: String!, $name: String!, $surname: String!, $password: String!, $userType: String!, $status: String!) {
   register(
-    options: {name: $name, email: $email, surname: $surname, password: $password}
+    options: {name: $name, email: $email, surname: $surname, password: $password, userType: $userType, status: $status}
   ) {
     errors {
       ...BaseError
@@ -915,6 +917,8 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *      name: // value for 'name'
  *      surname: // value for 'surname'
  *      password: // value for 'password'
+ *      userType: // value for 'userType'
+ *      status: // value for 'status'
  *   },
  * });
  */

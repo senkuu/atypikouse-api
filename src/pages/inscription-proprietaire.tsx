@@ -34,6 +34,8 @@ interface Values {
   surname: string;
   email: string;
   password: string;
+  userType: string;
+  status: string;
 }
 export default function SignInOwner() {
   const router = useRouter();
@@ -44,7 +46,6 @@ export default function SignInOwner() {
 
   const handleFormSubmit = async (values: Values) => {
     const response = await register({ variables: values });
-
     apolloClient.resetStore();
     await router.push("/");
   };
@@ -56,7 +57,7 @@ export default function SignInOwner() {
         <ContainerForm>
           <RightForm>
             <RightFormCenter>
-              <HeadLine>Créer votre compte !</HeadLine>
+              <HeadLine>Faite votre demande !</HeadLine>
               <Paragraphe>
                 Entrez vos informations pour vous inscrire
               </Paragraphe>
@@ -67,6 +68,8 @@ export default function SignInOwner() {
                 surname: "",
                 email: "",
                 password: "",
+                userType: "owner",
+                status: "activationPending",
               }}
               onSubmit={handleFormSubmit}
             >
@@ -134,7 +137,7 @@ export default function SignInOwner() {
                   <Position>
                     <Container_Button>
                       <SubmitButton type="submit">
-                        S'inscrire maintenant
+                        Envoyer la demande
                       </SubmitButton>
                     </Container_Button>
                   </Position>
