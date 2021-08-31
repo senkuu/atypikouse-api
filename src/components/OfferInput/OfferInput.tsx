@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
-import tw, { styled } from "twin.macro";
+import React from "react";
+import tw from "twin.macro";
 import InputField from "../InputField";
 import { Formik, Form } from "formik";
-import { useMeQuery } from "../../generated/graphql";
+import { useCreateBookingMutation, useMeQuery } from "../../generated/graphql";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;
 const BlockedButton = tw.button`bg-gray-600 px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-gray-900 w-full font-serif`;
@@ -14,14 +15,20 @@ const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
 
 interface props {
   price: number;
-  title: string;
+  offerId: number;
 }
 
 interface Values {
   startDate: string;
   endDate: string;
-  adults: string;
-  children: string;
+  adults: number;
+  children: number;
+  occupantId: number;
+  offerId: number;
+  priceHT: number;
+  priceTTC: number;
+  status: string;
+  cancelReason: string;
 }
 
 function setMinDepartDate(startDateValue: string) {
@@ -40,12 +47,21 @@ export default function OfferInput(props: props) {
   let [diffDays, setDiffdays] = React.useState(0);
   let [totalPrice, setTotalPrice] = React.useState(0);
   const { data, loading: meLoading } = useMeQuery();
+  const [booking] = useCreateBookingMutation();
+  const router = useRouter();
 
   let Deal = 0;
   let Price = props.price;
+  let PriceHT = (Price * 80) / 100;
 
   const handleFormSubmit = async (values: Values) => {
-    console.log(values);
+    const response = await booking({ variables: values });
+    console.log(response);
+
+    if (response === null) {
+      await router.push(`/offers/${values.offerId}`);
+    }
+    await router.push("/stripe");
   };
 
   function setDifferenceDate(startDateValue: string, endDateValue: string) {
@@ -73,8 +89,14 @@ export default function OfferInput(props: props) {
           initialValues={{
             startDate: new Date().toISOString().split("T")[0],
             endDate: "",
-            adults: "",
-            children: "",
+            adults: 0,
+            children: 0,
+            occupantId: 0,
+            offerId: 0,
+            priceHT: 0,
+            priceTTC: 0,
+            status: "",
+            cancelReason: "",
           }}
           onSubmit={handleFormSubmit}
         >
@@ -158,8 +180,14 @@ export default function OfferInput(props: props) {
           initialValues={{
             startDate: new Date().toISOString().split("T")[0],
             endDate: "",
-            adults: "",
-            children: "",
+            adults: 0,
+            children: 0,
+            occupantId: data!.me!.id,
+            offerId: props.offerId,
+            priceHT: PriceHT,
+            priceTTC: Price,
+            status: "WAITING_APPROVAL",
+            cancelReason: "UNKNOWN",
           }}
           onSubmit={handleFormSubmit}
         >

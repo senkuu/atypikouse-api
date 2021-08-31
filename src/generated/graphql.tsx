@@ -577,6 +577,32 @@ export type BaseUserResponseFragment = (
   )> }
 );
 
+export type CreateBookingMutationVariables = Exact<{
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  adults: Scalars['Float'];
+  children: Scalars['Float'];
+  occupantId: Scalars['Float'];
+  offerId: Scalars['Float'];
+  priceTTC: Scalars['Float'];
+  priceHT: Scalars['Float'];
+  status: Scalars['String'];
+  cancelReason: Scalars['String'];
+}>;
+
+
+export type CreateBookingMutation = (
+  { __typename?: 'Mutation' }
+  & { createBooking: (
+    { __typename?: 'Booking' }
+    & Pick<Booking, 'id' | 'status' | 'startDate' | 'endDate' | 'adults' | 'children' | 'priceHT' | 'priceTTC' | 'cancelReason'>
+    & { occupant: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'surname' | 'email'>
+    ) }
+  ) }
+);
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -718,6 +744,73 @@ export const BaseUserResponseFragmentDoc = gql`
 }
     ${BaseErrorFragmentDoc}
 ${BaseUserFragmentDoc}`;
+export const CreateBookingDocument = gql`
+    mutation createBooking($startDate: DateTime!, $endDate: DateTime!, $adults: Float!, $children: Float!, $occupantId: Float!, $offerId: Float!, $priceTTC: Float!, $priceHT: Float!, $status: String!, $cancelReason: String!) {
+  createBooking(
+    startDate: $startDate
+    endDate: $endDate
+    adults: $adults
+    children: $children
+    occupantId: $occupantId
+    offerId: $offerId
+    priceTTC: $priceTTC
+    priceHT: $priceHT
+    status: $status
+    cancelReason: $cancelReason
+  ) {
+    id
+    status
+    startDate
+    endDate
+    adults
+    children
+    priceHT
+    priceTTC
+    cancelReason
+    occupant {
+      id
+      name
+      surname
+      email
+    }
+  }
+}
+    `;
+export type CreateBookingMutationFn = Apollo.MutationFunction<CreateBookingMutation, CreateBookingMutationVariables>;
+
+/**
+ * __useCreateBookingMutation__
+ *
+ * To run a mutation, you first call `useCreateBookingMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBookingMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBookingMutation, { data, loading, error }] = useCreateBookingMutation({
+ *   variables: {
+ *      startDate: // value for 'startDate'
+ *      endDate: // value for 'endDate'
+ *      adults: // value for 'adults'
+ *      children: // value for 'children'
+ *      occupantId: // value for 'occupantId'
+ *      offerId: // value for 'offerId'
+ *      priceTTC: // value for 'priceTTC'
+ *      priceHT: // value for 'priceHT'
+ *      status: // value for 'status'
+ *      cancelReason: // value for 'cancelReason'
+ *   },
+ * });
+ */
+export function useCreateBookingMutation(baseOptions?: Apollo.MutationHookOptions<CreateBookingMutation, CreateBookingMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBookingMutation, CreateBookingMutationVariables>(CreateBookingDocument, options);
+      }
+export type CreateBookingMutationHookResult = ReturnType<typeof useCreateBookingMutation>;
+export type CreateBookingMutationResult = Apollo.MutationResult<CreateBookingMutation>;
+export type CreateBookingMutationOptions = Apollo.BaseMutationOptions<CreateBookingMutation, CreateBookingMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(options: {email: $email, password: $password}) {

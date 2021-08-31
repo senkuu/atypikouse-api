@@ -79,7 +79,7 @@ export default function OfferPage() {
       <Wrapper>
         <div tw="mr-5">
           <h1 tw="font-serif text-lg lg:text-4xl font-bold ml-10 pt-4">
-            {data!.offer.title}
+            {data?.offer!.title}
           </h1>
           <H3 tw="ml-10">
             {data!.offer?.priceTTC}€
@@ -90,8 +90,8 @@ export default function OfferPage() {
             <div tw="ml-1">
               <span tw="text-black flex items-center">
                 <p tw="mr-1">
-                  {data!.offer.averageRating
-                    ? Math.round(data!.offer.averageRating * 100) / 100
+                  {data?.offer!.averageRating
+                    ? Math.round(data?.offer!.averageRating * 100) / 100
                     : "Aucune note"}
                 </p>
                 <Icon style={{ color: "#688f4e", fontSize: 24 }}>star</Icon>
@@ -99,7 +99,7 @@ export default function OfferPage() {
             </div>
             <div tw="text-base font-normal mx-2">·</div>
             <div>
-              {data!.offer.city.name} ({data!.offer.city.departement.number})
+              {data?.offer!.city.name} ({data?.offer!.city.departement.number})
             </div>
             <div tw="text-base font-normal mx-2">·</div>
             <div tw="text-gray-500 ml-1">
@@ -154,7 +154,7 @@ export default function OfferPage() {
                 {data!.offer?.priceTTC}€
                 <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
               </H3>
-              <OfferInput price={data!.offer?.priceTTC} title="test" />
+              <OfferInput price={data!.offer!.priceTTC} offerId={offerId} />
               <p tw="text-center text-xs mt-2 mb-4">
                 Aucun montant ne vous sera débité pour le moment
               </p>
@@ -162,7 +162,7 @@ export default function OfferPage() {
             </div>
             <div tw="ml-5">
               <H3 tw="font-serif text-sm lg:text-2xl font-bold">
-                {data!.offer.title}
+                {data?.offer!.title}
               </H3>
               <div tw="flex items-center text-sm font-medium my-5 sm:mt-2 sm:mb-4">
                 <div tw="ml-1">

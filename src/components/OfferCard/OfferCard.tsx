@@ -22,7 +22,6 @@ interface Props {
 }
 
 function OfferCard(props: Props) {
-  const id = 1;
   return (
     <Wrapper>
       <OfferContainer>
@@ -69,7 +68,10 @@ function OfferCard(props: Props) {
               tw="w-6 h-6 rounded-full mr-2 bg-gray-100"
             />
             Annonce postée par{" "}
-            <a tw="ml-1 mr-1 text-Green-light" href={"profile/" + id}>
+            <a
+              tw="ml-1 mr-1 text-Green-light"
+              href={"profile/" + props.offer.owner.id}
+            >
               {props.offer.owner.name}
             </a>
             <Icon style={{ color: "#688f4e", fontSize: 24 }}>

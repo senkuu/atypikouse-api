@@ -65,7 +65,7 @@ function OffersInput({ withFilters = false }: Props) {
             </Container>
             <Container>
               <InputField
-                icon="flight_land"
+                icon="explore"
                 label="arrive"
                 type="date"
                 placeholder="Quand ? "
@@ -76,7 +76,7 @@ function OffersInput({ withFilters = false }: Props) {
             </Container>
             <Container>
               <InputField
-                icon="flight_takeoff"
+                icon="explore_off"
                 label="depart"
                 name="depart"
                 type="date"
