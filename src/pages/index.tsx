@@ -6,6 +6,7 @@ import tw, { styled } from "twin.macro";
 import HomeHero from "../components/HomeHero";
 import ReviewCard from "../components/ReviewCard";
 import Suggestions from "../components/Suggestions";
+import UploadForm from "../components/UploadForm";
 
 const MainContainer = styled.main`
   ${tw`w-screen`}
@@ -46,6 +47,7 @@ export default function Home() {
       </Head>
       <HomeHero />
       <MainContainer>
+        <UploadForm/>
         <Container>
           <section>
             <Title>

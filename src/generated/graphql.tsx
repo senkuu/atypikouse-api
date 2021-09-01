@@ -80,6 +80,11 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type FileUploadResponse = {
+  __typename?: 'FileUploadResponse';
+  url: Scalars['String'];
+};
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -111,6 +116,7 @@ export type Mutation = {
   addOfferTypeCriterias?: Maybe<OfferType>;
   removeOfferTypeCriterias?: Maybe<OfferType>;
   deleteOfferType: Scalars['Boolean'];
+  uploadFile: FileUploadResponse;
 };
 
 
