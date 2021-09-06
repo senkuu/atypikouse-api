@@ -1,6 +1,8 @@
 import React from "react";
 import tw from "twin.macro";
 import Image from "next/image";
+import { Icon } from "@material-ui/core";
+import Link from "next/link";
 
 const Footer = tw.footer`w-full bg-Green-default text-white`;
 const Container = tw.div`xl:px-40 pb-12 lg:px-20 md:px-10 sm:px-5 px-10`;
@@ -39,7 +41,46 @@ export default function Foot() {
             <GridCol2>
               <a href="#">CGU / CGV</a>
               <a href="#">FAQ</a>
-              <a href="#">Devenir partenaire</a>
+              <div>
+                <Link
+                  href={`https://www.facebook.com/AtypikHouse-100173862320265`}
+                >
+                  <Icon
+                    style={{
+                      margin: "5px",
+                      color: "#688f4e",
+                      fontSize: 32,
+                      cursor: "pointer",
+                    }}
+                  >
+                    facebook
+                  </Icon>
+                </Link>
+                <Link href={`https://www.instagram.com/atypikhouseoff/`}>
+                  <Icon
+                    style={{
+                      margin: "5px",
+                      color: "#688f4e",
+                      fontSize: 32,
+                      cursor: "pointer",
+                    }}
+                  >
+                    link
+                  </Icon>
+                </Link>
+                <Link href={`https://www.tiktok.com/@atypikhouse?lang=fr`}>
+                  <Icon
+                    style={{
+                      margin: "5px",
+                      color: "#688f4e",
+                      fontSize: 32,
+                      cursor: "pointer",
+                    }}
+                  >
+                    tiktok
+                  </Icon>
+                </Link>
+              </div>
             </GridCol2>
           </Grid>
           <Copyright>

@@ -13,8 +13,9 @@ const H4 = tw.h4`font-serif text-base lg:text-lg`;
 const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
 
 interface props {
-  price: number;
+  priceHT: number;
   offerId: number;
+  touristTaxe: number;
 }
 
 interface Values {
@@ -28,6 +29,7 @@ interface Values {
   priceTTC: number;
   status: string;
   cancelReason: string;
+  touristTax: number;
 }
 
 function setMinDepartDate(startDateValue: string) {
@@ -50,8 +52,22 @@ export default function OfferInput(props: props) {
   const router = useRouter();
 
   let Deal = 0;
-  let Price = props.price;
-  let PriceHT = (Price * 80) / 100;
+  let Price = props.priceHT;
+  let PriceTTC = Price * 1.2;
+
+  const ceilNumber = (number: number, decimals: number): number => {
+    if (!Number.isInteger(decimals) || decimals > 5) {
+      return NaN;
+    }
+
+    const factor = Math.pow(10, decimals);
+
+    if (number === Math.trunc(number * factor) / factor) {
+      return number;
+    }
+
+    return Math.ceil(number * factor) / factor;
+  };
 
   const handleFormSubmit = async (values: Values) => {
     const response = await booking({ variables: values });
@@ -60,7 +76,6 @@ export default function OfferInput(props: props) {
     if (response === null) {
       await router.push(`/offers/${values.offerId}`);
     }
-    await router.push("/stripe");
   };
 
   function setDifferenceDate(startDateValue: string, endDateValue: string) {
@@ -70,7 +85,7 @@ export default function OfferInput(props: props) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     setDiffdays(diffDays);
     if (diffDays != 0) {
-      totalPrice = Price * diffDays;
+      totalPrice = ceilNumber(props.priceHT * 1.2, 2) * diffDays;
       if (Deal != 0) {
         totalPrice = totalPrice - Deal;
         setTotalPrice(totalPrice);
@@ -92,8 +107,9 @@ export default function OfferInput(props: props) {
             children: 0,
             occupantId: 0,
             offerId: 0,
-            priceHT: 0,
-            priceTTC: 0,
+            priceHT: props.priceHT,
+            touristTax: props.touristTaxe,
+            priceTTC: ceilNumber(props.priceHT * 1.2, 2),
             status: "",
             cancelReason: "",
           }}
@@ -154,7 +170,7 @@ export default function OfferInput(props: props) {
         <H4>
           séjour de :
           <span tw="text-gray-900 float-right text-base lg:text-lg">
-            {diffDays} nuit(s) * {props.price}€
+            {diffDays} nuit(s) * {ceilNumber(props.priceHT * 1.2, 2)}€
           </span>
         </H4>
         <H4>
@@ -183,8 +199,9 @@ export default function OfferInput(props: props) {
             children: 0,
             occupantId: data!.me!.id,
             offerId: props.offerId,
-            priceHT: PriceHT,
-            priceTTC: Price,
+            priceHT: props.priceHT,
+            priceTTC: ceilNumber(props.priceHT * 1.2, 2),
+            touristTax: props.touristTaxe,
             status: "WAITING_APPROVAL",
             cancelReason: "UNKNOWN",
           }}
@@ -244,7 +261,7 @@ export default function OfferInput(props: props) {
         <H4>
           séjour de :
           <span tw="text-gray-900 float-right text-base lg:text-lg">
-            {diffDays} nuit(s) * {props.price}€
+            {diffDays} nuit(s) * {ceilNumber(props.priceHT * 1.2, 2)}€
           </span>
         </H4>
         <H4>

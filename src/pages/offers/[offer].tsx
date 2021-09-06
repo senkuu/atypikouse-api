@@ -98,9 +98,9 @@ export default function OfferPage() {
               </span>
             </div>
             <div tw="text-base font-normal mx-2">·</div>
-            <div>
-              {data?.offer!.city.name} ({data?.offer!.city.departement.number})
-            </div>
+            {/* <div>
+              {data?.offer.city.name} ({data?.offer!.city.departement.number})
+            </div> */}
             <div tw="text-base font-normal mx-2">·</div>
             <div tw="text-gray-500 ml-1">
               <span tw="flex items-center">
@@ -154,7 +154,11 @@ export default function OfferPage() {
                 {data!.offer?.priceTTC}€
                 <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
               </H3>
-              <OfferInput price={data!.offer!.priceTTC} offerId={offerId} />
+              <OfferInput
+                priceHT={data!.offer!.priceHT}
+                offerId={offerId}
+                touristTaxe={data!.offer!.touristTax}
+              />
               <p tw="text-center text-xs mt-2 mb-4">
                 Aucun montant ne vous sera débité pour le moment
               </p>

@@ -121,9 +121,6 @@ export default function Profile() {
       </AboutContainer>
       <LocationContainer>
         <LocationHeadLine>Toutes nos Locations</LocationHeadLine>
-        <OfferCard />
-        <OfferCard />
-        <OfferCard />
         {/* <LocationBox>
           <LocationImg />
           <PriceContainer>

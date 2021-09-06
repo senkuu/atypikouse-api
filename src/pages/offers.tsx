@@ -36,7 +36,7 @@ function Offers() {
       </div>
       <Headline>Si vous êtes flexible :</Headline>
       {data &&
-        data.offers.map((offer) => (
+        data.offers.offers.map((offer) => (
           <Link href={`/offers/${offer.id}`}>
             <div tw="cursor-pointer">
               <OfferCard offer={offer as Offer} />
