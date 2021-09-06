@@ -1,0 +1,13 @@
+fragment BaseReview on Review {
+  id
+  text
+  rating
+  booking {
+    id
+    occupant {
+      id
+      name
+      surname
+    }
+  }
+}
