@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
 import { Offer, useOfferQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
@@ -35,7 +35,26 @@ const H4 = tw.h4`font-serif text-base lg:text-lg`;
 
 export default function OfferPage() {
   const router = useRouter();
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
   const { offer } = router.query;
+
+  const offerId = Number(offer);
+
+  const { data, loading, error } = useOfferQuery({
+    variables: {
+      id: offerId,
+    },
+  });
+
+  useEffect(() => {
+    if (data?.offer?.photos) {
+      data.offer.photos.map(photo => {
+        fetch(`http://localhost:4000/images/${photo.id}`)
+          .then(response => setImageSrc(prev => [...prev, response.url]))
+          .catch(err => console.error(err));
+      })
+    }
+  }, [data?.offer, loading]);
 
   const desc =
     "Toue cabanée traditionnelle de 12 m, amarrée au port de Saint-Dyé-sur-Loire (port de Chambord) 4 couchages : 1 lit 140x200, 1 lit 70 x 200, 2 lits escamotables 70x190, matelas latex respirant. 1 espace salle de bain avec douche 80x80 et lavabo. Eau chaude.";
@@ -49,17 +68,12 @@ export default function OfferPage() {
     "Lac",
   ];
 
-  const offerId = Number(offer);
 
-  if (offerId === NaN || offerId === undefined) {
-    return <p>ntm</p>;
+  if (isNaN(offerId) || offerId === undefined) {
+    return <p>invalid offer id</p>;
   }
 
-  const { data, loading, error } = useOfferQuery({
-    variables: {
-      id: offerId,
-    },
-  });
+
 
   if (loading) {
     return <p>loading</p>;
@@ -70,7 +84,7 @@ export default function OfferPage() {
     return <p>error</p>;
   }
 
-  if (data === undefined || data === null) {
+  if (!data || !data.offer) {
     return <p>404</p>;
   }
 
@@ -81,7 +95,7 @@ export default function OfferPage() {
       <Wrapper>
         <div tw="mr-5">
           <h1 tw="font-serif text-lg lg:text-3xl font-bold ml-10 pt-4">
-            {data!.offer.title}
+            {data.offer.title}
           </h1>
           <div tw="flex items-center text-sm font-medium ml-10 my-5 sm:mt-2 sm:mb-4">
             <div tw="ml-1">
@@ -111,39 +125,20 @@ export default function OfferPage() {
           <ImageContainer>
             <FirstImage>
               <img
-                src="/landing-right.jpg"
+                src={imageSrc[0]}
                 alt=""
                 tw="absolute inset-0 w-full h-full object-cover bg-gray-100 sm:rounded-lg"
               />
             </FirstImage>
-            <div tw="relative hidden md:block">
-              <img
-                src="/landing-left.png"
-                alt=""
-                tw="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
-              />
-            </div>
-            <div tw="relative hidden md:block">
-              <img
-                src="/landing-left.png"
-                alt=""
-                tw="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
-              />
-            </div>
-            <div tw="relative hidden md:block">
-              <img
-                src="/landing-left.png"
-                alt=""
-                tw="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
-              />
-            </div>
-            <div tw="relative hidden md:block">
-              <img
-                src="/landing-left.png"
-                alt=""
-                tw="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
-              />
-            </div>
+            {imageSrc.map(image => (
+              <div key={image} tw="relative hidden md:block">
+                <img
+                  src={image}
+                  alt=""
+                  tw="absolute inset-0 w-full h-full object-cover rounded-lg bg-gray-100"
+                />
+              </div>
+            ))}
           </ImageContainer>
           <Container>
             <div tw="bg-white shadow-sm w-full h-3/4 p-6">
@@ -220,12 +215,12 @@ export default function OfferPage() {
                 </H3>
                 <div tw="grid grid-cols-2 grid-rows-2 gap-0">
                   {filtres.map((filtre, index) => (
-                    <>
+                    <div key={filtre + index}>
                       <p tw="hidden">{index}</p>
                       <label tw="">
                         <Span>{filtre}</Span>
                       </label>
-                    </>
+                    </div>
                   ))}
                 </div>
                 <ModalContainer

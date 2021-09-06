@@ -21,7 +21,7 @@ export type Booking = {
   id: Scalars['Float'];
   offer: Offer;
   occupant: User;
-  review: Review;
+  review?: Maybe<Review>;
   adults: Scalars['Float'];
   children: Scalars['Float'];
   priceHT: Scalars['Float'];
@@ -39,8 +39,9 @@ export type City = {
   id: Scalars['Float'];
   name: Scalars['String'];
   departement: Departement;
-  offers: Array<Offer>;
+  offers?: Maybe<Array<Offer>>;
   population: Scalars['Float'];
+  users?: Maybe<Array<User>>;
 };
 
 export type CoordinatesInput = {
@@ -52,9 +53,10 @@ export type Criteria = {
   __typename?: 'Criteria';
   id: Scalars['Float'];
   name: Scalars['String'];
-  additional: Scalars['String'];
+  additional?: Maybe<Scalars['String']>;
   criteriaType: Scalars['String'];
-  offerCriterias: Array<OfferCriteria>;
+  offerTypes?: Maybe<Array<OfferType>>;
+  offerCriterias?: Maybe<Array<OfferCriteria>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -90,13 +92,15 @@ export type Mutation = {
   createOffer: Offer;
   updateOffer?: Maybe<Offer>;
   addOfferCriterias?: Maybe<Offer>;
-  removeOfferCriterias?: Maybe<Offer>;
+  offer?: Maybe<Offer>;
   deleteOffer: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
+  updateUser?: Maybe<UserResponse>;
+  deleteUser: Scalars['Boolean'];
   createBooking: Booking;
   updateBooking?: Maybe<Booking>;
   deleteBooking: Scalars['Boolean'];
@@ -151,9 +155,8 @@ export type MutationAddOfferCriteriasArgs = {
 };
 
 
-export type MutationRemoveOfferCriteriasArgs = {
-  criteriaIds?: Maybe<Array<Scalars['Float']>>;
-  offerId: Scalars['Float'];
+export type MutationOfferArgs = {
+  id: Scalars['Float'];
 };
 
 
@@ -181,6 +184,24 @@ export type MutationChangePasswordArgs = {
   newPasswordConfirm: Scalars['String'];
   newPassword: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  status?: Maybe<Scalars['String']>;
+  userType?: Maybe<Scalars['String']>;
+  cityId?: Maybe<Scalars['Float']>;
+  website?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  surname?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['Float'];
 };
 
 
@@ -279,13 +300,13 @@ export type Notice = {
   __typename?: 'Notice';
   id: Scalars['Float'];
   user: User;
-  linkedUser: User;
-  placeholder1: Scalars['String'];
-  placeholder2: Scalars['String'];
-  placeholder3: Scalars['String'];
-  placeholder4: Scalars['String'];
-  placeholder5: Scalars['String'];
-  url: Scalars['String'];
+  linkedUser?: Maybe<User>;
+  placeholder1?: Maybe<Scalars['String']>;
+  placeholder2?: Maybe<Scalars['String']>;
+  placeholder3?: Maybe<Scalars['String']>;
+  placeholder4?: Maybe<Scalars['String']>;
+  placeholder5?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
   urlType: Scalars['String'];
   noticeType: NoticeType;
   createdAt: Scalars['String'];
@@ -296,6 +317,7 @@ export type NoticeType = {
   id: Scalars['Float'];
   name: Scalars['String'];
   defaultText: Scalars['String'];
+  notices?: Maybe<Array<Notice>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -305,7 +327,7 @@ export type Offer = {
   id: Scalars['Float'];
   title: Scalars['String'];
   description: Scalars['String'];
-  address: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
   latitude?: Maybe<Scalars['Float']>;
   longitude?: Maybe<Scalars['Float']>;
   touristTax: Scalars['Float'];
@@ -317,10 +339,10 @@ export type Offer = {
   city: City;
   owner: User;
   offerType: OfferType;
-  bookings: Array<Booking>;
-  photos: Array<Photo>;
-  offerCriterias: Array<OfferCriteria>;
-  planningData: Array<Planning>;
+  bookings?: Maybe<Array<Booking>>;
+  photos?: Maybe<Array<Photo>>;
+  offerCriterias?: Maybe<Array<OfferCriteria>>;
+  planningData?: Maybe<Array<Planning>>;
   status: Scalars['String'];
   deleteReason: Scalars['String'];
   createdAt: Scalars['String'];
@@ -335,12 +357,17 @@ export type OfferCriteria = {
   criteria: Criteria;
 };
 
+export type OfferResponse = {
+  __typename?: 'OfferResponse';
+  offers: Array<Offer>;
+};
+
 export type OfferType = {
   __typename?: 'OfferType';
   id: Scalars['Float'];
   name: Scalars['String'];
-  offers: Array<Offer>;
-  criterias: Array<Criteria>;
+  offers?: Maybe<Array<Offer>>;
+  criterias?: Maybe<Array<Criteria>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -351,29 +378,13 @@ export type OfferTypeResponse = {
   offerType?: Maybe<OfferType>;
 };
 
-export type OffersResponse = {
-  __typename?: 'OffersResponse';
-  offers: Array<Offer>;
-};
-
 export type Photo = {
   __typename?: 'Photo';
   id: Scalars['Float'];
+  filename: Scalars['String'];
   url: Scalars['String'];
-  user: User;
-  description: Scalars['String'];
-  booking: Booking;
-  offer: Offer;
-  photoType: PhotoType;
-};
-
-export type PhotoType = {
-  __typename?: 'PhotoType';
-  id: Scalars['Float'];
-  name: Scalars['String'];
-  description: Scalars['String'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  mimetype: Scalars['String'];
+  offer?: Maybe<Offer>;
 };
 
 export type Planning = {
@@ -391,9 +402,11 @@ export type Planning = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
-  offers: OffersResponse;
+  offers: OfferResponse;
   offer?: Maybe<Offer>;
   me?: Maybe<User>;
+  users: Array<User>;
+  user?: Maybe<User>;
   bookings: Array<Booking>;
   booking?: Maybe<Booking>;
   criterias: Array<Criteria>;
@@ -410,6 +423,7 @@ export type Query = {
 
 
 export type QueryOffersArgs = {
+  ownerId?: Maybe<Scalars['Float']>;
   getDepartements?: Maybe<Scalars['Boolean']>;
   getCities?: Maybe<Scalars['Boolean']>;
   cityId?: Maybe<Scalars['Float']>;
@@ -418,6 +432,16 @@ export type QueryOffersArgs = {
 
 
 export type QueryOfferArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type QueryUsersArgs = {
+  relations?: Maybe<Array<Scalars['String']>>;
+};
+
+
+export type QueryUserArgs = {
   id: Scalars['Float'];
 };
 
@@ -496,7 +520,7 @@ export type Region = {
   __typename?: 'Region';
   id: Scalars['Float'];
   name: Scalars['String'];
-  departements: Array<Departement>;
+  departements?: Maybe<Array<Departement>>;
 };
 
 export type RegisterInput = {
@@ -524,12 +548,14 @@ export type User = {
   email: Scalars['String'];
   name: Scalars['String'];
   surname: Scalars['String'];
-  description: Scalars['String'];
-  offers: Array<Offer>;
-  bookings: Array<Booking>;
-  notices: Array<Notice>;
-  linkedNotices: Array<Notice>;
-  photo: Photo;
+  description?: Maybe<Scalars['String']>;
+  website?: Maybe<Scalars['String']>;
+  offers?: Maybe<Array<Offer>>;
+  bookings?: Maybe<Array<Booking>>;
+  city?: Maybe<City>;
+  notices?: Maybe<Array<Notice>>;
+  linkedNotices?: Maybe<Array<Notice>>;
+  photo?: Maybe<Photo>;
   userType: Scalars['String'];
   status: Scalars['String'];
   createdAt: Scalars['String'];
@@ -550,7 +576,10 @@ export type BaseErrorFragment = (
 export type BaseOfferFragment = (
   { __typename?: 'Offer' }
   & Pick<Offer, 'id' | 'title' | 'description' | 'distance' | 'sortScore' | 'averageRating' | 'latitude' | 'longitude'>
-  & { city: (
+  & { photos?: Maybe<Array<(
+    { __typename?: 'Photo' }
+    & Pick<Photo, 'id' | 'url' | 'mimetype'>
+  )>>, city: (
     { __typename?: 'City' }
     & Pick<City, 'name' | 'id'>
     & { departement: (
@@ -660,7 +689,7 @@ export type OffersQueryVariables = Exact<{
 export type OffersQuery = (
   { __typename?: 'Query' }
   & { offers: (
-    { __typename?: 'OffersResponse' }
+    { __typename?: 'OfferResponse' }
     & { offers: Array<(
       { __typename?: 'Offer' }
       & BaseOfferFragment
@@ -673,6 +702,11 @@ export const BaseOfferFragmentDoc = gql`
   id
   title
   description
+  photos {
+    id
+    url
+    mimetype
+  }
   city {
     name
     id

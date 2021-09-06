@@ -2,6 +2,11 @@ fragment BaseOffer on Offer {
   id
   title
   description
+  photos {
+    id
+    url
+    mimetype
+  }
   city {
     name
     id
