@@ -41,15 +41,19 @@ export default function Login() {
   let body = null;
 
   if (meLoading) {
+    if (data?.me === undefined) {
+      return <></>;
+    }
+  }
+
+  if (meLoading) {
   } else if (!data?.me) {
     body = (
-      <Wrapper>
-        <CancelAccess
-          userName=""
-          title="Il semble que vous soyez déjà connecter"
-          details="veuillez retourner sur la page d'accueil"
-        />
-      </Wrapper>
+      <CancelAccess
+        userName=""
+        title="Il semble que vous ne soyez pas connecter"
+        details="veuillez retourner sur la page d'accueil"
+      />
     );
   } else {
     body = (

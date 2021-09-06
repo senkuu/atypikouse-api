@@ -43,6 +43,9 @@ export default function BookingCard() {
                 <h1 tw="text-2xl text-gray-800 font-semibold mb-3">
                   Annonce : {booking.offer.title}.
                 </h1>
+                <h3 tw="text-xl text-gray-800 font-semibold mb-3">
+                  {booking.offer.priceTTC} €
+                </h3>
                 <p tw="text-gray-600 leading-6 tracking-normal">
                   {booking.offer.description}
                 </p>
