@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
-import { Offer, useOfferQuery } from "../../generated/graphql";
+import { useOfferQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
 import Icon from "@material-ui/core/Icon";
 import ModalContainer from "../../components/Modal";
+
+import StripeContainer from '../../Stripe/StripeContainer'
 
 const Wrapper = styled.div`
   ${tw`w-screen pt-10`}
@@ -146,11 +148,11 @@ export default function OfferPage() {
                 125€ <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
               </H3>
               <p>Datepicker</p>
-              <Button>RESERVER</Button>
+              <StripeContainer amount={120000} />
               <p tw="text-center text-xs mt-2 mb-4">
                 Aucun montant ne vous sera débité pour le moment
               </p>
-              <HR />
+              <HR />000
               <H4>
                 séjour de :
                 <span tw="text-gray-900 float-right text-base lg:text-lg">
