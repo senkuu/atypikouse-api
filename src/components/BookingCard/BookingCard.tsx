@@ -1,7 +1,5 @@
 import React from "react";
 import tw, { styled } from "twin.macro";
-import Image from "next/image";
-import { Icon } from "@material-ui/core";
 import Link from "next/link";
 import { useBookingsQuery, useMeQuery } from "../../generated/graphql";
 
@@ -11,7 +9,7 @@ const Wrapper = styled.div`
 `;
 
 export default function BookingCard() {
-  const { data: userMe, loading: meLoading } = useMeQuery();
+  const { data: userMe } = useMeQuery();
   const { data, loading } = useBookingsQuery({
     variables: {
       occupantId: userMe!.me!.id,
@@ -26,8 +24,8 @@ export default function BookingCard() {
     console.log(data.bookings);
   }
 
-  if (data === undefined) {
-    <p>vous avez aucune réservation chez AtypikHouse à ce jour.</p>;
+  if (!data) {
+    return <p>vous avez aucune réservation chez AtypikHouse à ce jour.</p>;
   }
 
   return (
@@ -36,7 +34,7 @@ export default function BookingCard() {
         Vos réservations :
       </h1>
       <div tw="p-10 mt-10 flex items-center justify-center flex-col">
-        {data!.bookings?.map((booking, index) => (
+        {data.bookings && data.bookings.map((booking, index) => (
           <div key={index}>
             <div tw="container mx-auto px-20 mt-10 w-screen">
               <div tw="bg-white p-8 rounded-lg shadow-lg relative shadow-lg">

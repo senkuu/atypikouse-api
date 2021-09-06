@@ -1,0 +1,5 @@
+query booking($id: Float!) {
+  booking(id: $id) {
+    ...BaseBooking
+  }
+}

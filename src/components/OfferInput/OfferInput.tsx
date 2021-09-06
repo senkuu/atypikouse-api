@@ -1,14 +1,19 @@
 import React from "react";
 import tw from "twin.macro";
-import InputField from "../InputField";
 import { Formik, Form } from "formik";
-import { useCreateBookingMutation, useMeQuery } from "../../generated/graphql";
+import axios from 'axios';
+
+import { toast } from 'react-toastify'
+
 import { useRouter } from "next/router";
-import StripeContainer from "../../Stripe/StripeContainer"
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
+
+import { useCreateBookingMutation, useMeQuery } from "../../generated/graphql";
+import InputField from "../InputField";
 
 const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;
 const BlockedButton = tw.button`bg-gray-600 px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-gray-900 w-full font-serif`;
-const Container = tw.div`w-full`;
+const Container = tw.div`w-full py-2`;
 const H3 = tw.h3`font-serif text-sm lg:text-2xl font-bold`;
 const H4 = tw.h4`font-serif text-base lg:text-lg`;
 const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
@@ -49,12 +54,12 @@ export default function OfferInput(props: props) {
   let [diffDays, setDiffdays] = React.useState(0);
   let [totalPrice, setTotalPrice] = React.useState(0);
   const { data, loading: meLoading } = useMeQuery();
-  const [booking] = useCreateBookingMutation();
+  const [createBooking, { data: createBookingData }] = useCreateBookingMutation();
   const router = useRouter();
+  const stripe = useStripe();
+  const elements = useElements();
 
   let Deal = 0;
-  let Price = props.priceHT;
-  let PriceTTC = Price * 1.2;
 
   const ceilNumber = (number: number, decimals: number): number => {
     if (!Number.isInteger(decimals) || decimals > 5) {
@@ -71,11 +76,47 @@ export default function OfferInput(props: props) {
   };
 
   const handleFormSubmit = async (values: Values) => {
-    const response = await booking({ variables: values });
-    console.log(response);
+    await createBooking({ variables: values });
 
-    if (response === null) {
-      //await router.push(`/offers/${values.offerId}`);
+    if (!createBookingData?.createBooking.booking) {
+      return null;
+    }
+
+    const { error, paymentMethod } = await stripe!.createPaymentMethod({
+      type: "card",
+      card: elements!.getElement(CardElement)!,
+    });
+
+    if (!error) {
+      console.log("Stripe 23 | token generated!", paymentMethod);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:4000/stripe/charge",
+          {
+            amount: createBookingData.createBooking.booking.priceTTC,
+            id: paymentMethod!.id,
+          }
+        );
+
+        console.log("Stripe 35 | data", response.data.success);
+        if (response.data.success) {
+          toast.success("L'Offre a bien ete reserve", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+        }
+      } catch (error) {
+        console.log("CheckoutForm.js 28 | ", error);
+      }
+
+    } else {
+      console.log(error.message);
     }
   };
 
@@ -116,8 +157,8 @@ export default function OfferInput(props: props) {
           }}
           onSubmit={handleFormSubmit}
         >
-          {({ isSubmitting, values }) => (
-            <Form tw="w-4/6 flex flex-col pt-2 pb-5 m-auto md:items-center">
+          {({ values }) => (
+            <Form tw="w-5/6 flex flex-col pt-2 pb-5 m-auto md:items-center">
               <Container>
                 <InputField
                   icon="explore"
@@ -208,7 +249,7 @@ export default function OfferInput(props: props) {
           }}
           onSubmit={handleFormSubmit}
         >
-          {({ isSubmitting, values }) => (
+          {({ values }) => (
             <Form tw="w-5/6 flex flex-col pt-2 pb-5 m-auto md:items-center">
               <Container>
                 <InputField
@@ -256,8 +297,9 @@ export default function OfferInput(props: props) {
                 />
               </Container>
               <Container>
-                <StripeContainer amount={values.priceTTC} />
+                <CardElement />
               </Container>
+              <Button type="submit">Reserver</Button>
             </Form>
           )}
         </Formik>

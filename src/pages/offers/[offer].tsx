@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
-import { useOfferQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
+
+import { useOfferQuery } from "../../generated/graphql";
 import Icon from "@material-ui/core/Icon";
 import ModalContainer from "../../components/Modal";
 import OfferInput from "../../components/OfferInput";
-
-import StripeContainer from '../../Stripe/StripeContainer'
 
 const Wrapper = styled.div`
   ${tw`w-screen pt-10`}

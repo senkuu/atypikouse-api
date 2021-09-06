@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import { useRouter } from 'next/router';
 
+import { toast } from 'react-toastify'
+
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import tw from "twin.macro";
 
@@ -35,7 +37,6 @@ export function CheckoutForm(props: { amount: number }) {
 
         console.log("Stripe 35 | data", response.data.success);
         if (response.data.success) {
-          router.push("/");
         }
       } catch (error) {
         console.log("CheckoutForm.js 28 | ", error);
@@ -49,7 +50,7 @@ export function CheckoutForm(props: { amount: number }) {
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />
-      <Button>Reserver</Button>
+      <Button type="submit">Reserver</Button>
     </form>
   );
 };

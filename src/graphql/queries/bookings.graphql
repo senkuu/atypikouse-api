@@ -1,14 +1,5 @@
 query bookings($occupantId: Float) {
   bookings(occupantId: $occupantId) {
-    id
-    offer {
-      id
-      title
-      description
-      priceHT
-      priceTTC
-    }
-    startDate
-    endDate
+    ...BaseBooking
   }
 }
