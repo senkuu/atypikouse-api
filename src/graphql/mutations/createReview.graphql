@@ -1,0 +1,20 @@
+mutation createReview(
+  $bookingId: Float!
+  $text: String!
+  $rating: Float!
+) {
+  createReview(
+    options: {
+      bookingId: $bookingId
+      text: $text
+      rating: $rating
+    }
+  ) {
+    errors {
+      ...BaseError
+    }
+    review {
+      ...BaseReview
+    }
+  }
+}

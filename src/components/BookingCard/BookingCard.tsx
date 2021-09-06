@@ -36,7 +36,7 @@ export default function BookingCard() {
         Vos réservations :
       </h1>
       <div tw="p-10 mt-10 flex items-center justify-center flex-col">
-        {data!.bookings?.map((booking, index) => (
+        {data!.bookings!.map((booking, index) => (
           <div key={index}>
             <div tw="container mx-auto px-20 mt-10 w-screen">
               <div tw="bg-white p-8 rounded-lg shadow-lg relative shadow-lg">
@@ -56,6 +56,11 @@ export default function BookingCard() {
                 <Link href={`/offers/${booking.offer.id}`}>
                   <button tw="py-2 px-4 mt-8 bg-Green-light text-white rounded-md shadow-xl">
                     Voir l'annonce
+                  </button>
+                </Link>
+                <Link href={`/bookings/${booking.id}`}>
+                  <button tw="py-2 px-4 ml-8 mt-8 text-yellow-500 bg-white rounded-md shadow-xl">
+                    Mettre un avis
                   </button>
                 </Link>
                 <div>

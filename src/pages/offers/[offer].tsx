@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import tw, { styled } from "twin.macro";
-import { useOfferQuery } from "../../generated/graphql";
+import { useOfferQuery, useReviewsQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
 import Icon from "@material-ui/core/Icon";
 import ModalContainer from "../../components/Modal";
 import OfferInput from "../../components/OfferInput";
 
-import StripeContainer from '../../Stripe/StripeContainer'
+import StripeContainer from "../../Stripe/StripeContainer";
 
 const Wrapper = styled.div`
   ${tw`w-screen pt-10`}
@@ -48,13 +48,19 @@ export default function OfferPage() {
     },
   });
 
+  const { data: review } = useReviewsQuery({
+    variables: {
+      offerId: offerId,
+    },
+  });
+
   useEffect(() => {
     if (data?.offer?.photos) {
-      data.offer.photos.map(photo => {
+      data.offer.photos.map((photo) => {
         fetch(`http://localhost:4000/images/${photo.id}`)
-          .then(response => setImageSrc(prev => [...prev, response.url]))
-          .catch(err => console.error(err));
-      })
+          .then((response) => setImageSrc((prev) => [...prev, response.url]))
+          .catch((err) => console.error(err));
+      });
     }
   }, [data?.offer, loading]);
 
@@ -73,8 +79,6 @@ export default function OfferPage() {
   if (isNaN(offerId) || offerId === undefined) {
     return <p>invalid offer id</p>;
   }
-
-
 
   if (loading) {
     return <p>loading</p>;
@@ -131,7 +135,7 @@ export default function OfferPage() {
                 tw="absolute inset-0 w-full h-full object-cover bg-gray-100 sm:rounded-lg"
               />
             </FirstImage>
-            {imageSrc.map(image => (
+            {imageSrc.map((image) => (
               <div key={image} tw="relative hidden md:block">
                 <img
                   src={image}
@@ -217,6 +221,32 @@ export default function OfferPage() {
                 </ModalContainer>
               </div>
             </div>
+            <h3 tw="mt-10 mb-10 font-serif text-2xl">
+              Vos avis concernant cette annonce :{" "}
+            </h3>
+            <br />
+            {review?.reviews?.map((review, index) => (
+              <div key={index}>
+                <div tw="w-full  h-56 min-h-full bg-white shadow-lg">
+                  <div tw="p-5">
+                    <p tw="font-serif text-base">
+                      Utilisateur :{" "}
+                      {review.booking.occupant.name +
+                        " " +
+                        review.booking.occupant.surname}
+                    </p>
+                    <p tw="font-serif text-sm font-bold">
+                      Note : {review.rating}
+                      <Icon style={{ fontSize: 16, paddingTop: "2px" }}>
+                        star
+                      </Icon>
+                    </p>
+                  </div>
+
+                  <p tw="pl-5 mt-3 text-sm">Avis : {review.text}</p>
+                </div>
+              </div>
+            ))}
           </Container>
         </div>
       </Wrapper>

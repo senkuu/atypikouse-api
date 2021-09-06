@@ -1,0 +1,13 @@
+query Reviews(
+  $offerId: Float
+  $ownerId: Float
+  $occupantId: Float
+) {
+  reviews(
+    offerId: $offerId
+    ownerId: $ownerId
+    occupantId: $occupantId
+  ) {
+    ...BaseReview
+  }
+}
