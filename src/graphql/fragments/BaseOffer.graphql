@@ -7,6 +7,7 @@ fragment BaseOffer on Offer {
     url
     mimetype
   }
+  touristTax
   city {
     name
     id
@@ -19,4 +20,13 @@ fragment BaseOffer on Offer {
   averageRating
   latitude
   longitude
+  priceTTC
+  priceHT
+  offerType {
+    id
+    name
+  }
+  owner {
+    name
+  }
 }

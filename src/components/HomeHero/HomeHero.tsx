@@ -1,7 +1,7 @@
 import React from "react";
 
 import tw, { styled } from "twin.macro";
-import OfferInput from "../OfferInput";
+import OfferInput from "../OffersInput";
 
 const Container = tw.div`relative w-screen h-screen overflow-x-hidden`;
 const BackgroundVideo = tw.video`object-cover w-full h-full`;

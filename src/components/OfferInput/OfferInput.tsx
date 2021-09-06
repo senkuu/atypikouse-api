@@ -1,107 +1,288 @@
-import React, { useState } from "react";
-import tw, { styled } from "twin.macro";
-import Image from "next/image";
-import Icon from "@material-ui/core/Icon";
-import { useApolloClient } from "@apollo/client";
+import React from "react";
+import tw from "twin.macro";
 import InputField from "../InputField";
-
 import { Formik, Form } from "formik";
-import Filters from "../Filters";
-import { ValuesOfCorrectTypeRule } from "graphql";
+import { useCreateBookingMutation, useMeQuery } from "../../generated/graphql";
+import { useRouter } from "next/router";
+import StripeContainer from "../../Stripe/StripeContainer"
 
-const Container = tw.div`flex sm:flex-row sm:w-1/3 px-3 mb-5`;
-const SignUpMobile = tw.button`block h-12 px-4 border-transparent rounded-md shadow-sm text-sm font-serif text-white bg-Green-default active:bg-Green-light ease-linear transition-all duration-150`;
+const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;
+const BlockedButton = tw.button`bg-gray-600 px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-gray-900 w-full font-serif`;
+const Container = tw.div`w-full`;
+const H3 = tw.h3`font-serif text-sm lg:text-2xl font-bold`;
+const H4 = tw.h4`font-serif text-base lg:text-lg`;
+const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
 
-interface Props {
-  withFilters?: boolean;
+interface props {
+  priceHT: number;
+  offerId: number;
+  touristTaxe: number;
 }
 
 interface Values {
-  where: string;
-  arrive: string;
-  depart: string;
-  voyageur: string;
+  startDate: string;
+  endDate: string;
+  adults: number;
+  children: number;
+  occupantId: number;
+  offerId: number;
+  priceHT: number;
+  priceTTC: number;
+  status: string;
+  cancelReason: string;
+  touristTax: number;
 }
 
-function setMinDepartDate(arriveValue: string) {
+function setMinDepartDate(startDateValue: string) {
   let minDate: Date;
-  if (arriveValue !== "") {
-    minDate = new Date(arriveValue);
+
+  if (startDateValue !== "") {
+    minDate = new Date(startDateValue);
   } else {
     minDate = new Date();
   }
-
   minDate.setDate(minDate.getDate() + 1);
   return minDate.toISOString().split("T")[0];
 }
 
-function OfferInput({ withFilters = false }: Props) {
-  const handleFormSubmit = async (values: Values) => {
-    console.log(values);
+export default function OfferInput(props: props) {
+  let [diffDays, setDiffdays] = React.useState(0);
+  let [totalPrice, setTotalPrice] = React.useState(0);
+  const { data, loading: meLoading } = useMeQuery();
+  const [booking] = useCreateBookingMutation();
+  const router = useRouter();
+
+  let Deal = 0;
+  let Price = props.priceHT;
+  let PriceTTC = Price * 1.2;
+
+  const ceilNumber = (number: number, decimals: number): number => {
+    if (!Number.isInteger(decimals) || decimals > 5) {
+      return NaN;
+    }
+
+    const factor = Math.pow(10, decimals);
+
+    if (number === Math.trunc(number * factor) / factor) {
+      return number;
+    }
+
+    return Math.ceil(number * factor) / factor;
   };
 
-  return (
-    <>
-      <Formik
-        initialValues={{
-          where: "",
-          arrive: new Date().toISOString().split("T")[0],
-          depart: "",
-          voyageur: "",
-        }}
-        onSubmit={handleFormSubmit}
-      >
-        {({ isSubmitting, values }) => (
-          <Form tw="w-10/12 flex flex-col md:flex-row pt-10 pb-10 md:items-center">
-            <Container>
-              <InputField
-                icon="search"
-                label="where"
-                name="where"
-                type="text"
-                placeholder="Où allez vous ?"
-                required
-              />
-            </Container>
-            <Container>
-              <InputField
-                icon="flight_land"
-                label="arrive"
-                type="date"
-                placeholder="Quand ? "
-                min={new Date().toISOString().split("T")[0]}
-                name="arrive"
-                required
-              />
-            </Container>
-            <Container>
-              <InputField
-                icon="flight_takeoff"
-                label="depart"
-                name="depart"
-                type="date"
-                placeholder="Quand ?"
-                min={setMinDepartDate(values.arrive)}
-                required
-              />
-            </Container>
-            <Container>
-              <InputField
-                icon="person_add"
-                label="voyageur"
-                name="voyageur"
-                type="number"
-                placeholder="Qui ?"
-                required
-              />
-            </Container>
-            {withFilters && <Filters />}
-            <SignUpMobile type="submit">Voir les annonces</SignUpMobile>
-          </Form>
-        )}
-      </Formik>
-    </>
-  );
-}
+  const handleFormSubmit = async (values: Values) => {
+    const response = await booking({ variables: values });
+    console.log(response);
 
-export default OfferInput;
+    if (response === null) {
+      //await router.push(`/offers/${values.offerId}`);
+    }
+  };
+
+  function setDifferenceDate(startDateValue: string, endDateValue: string) {
+    const diffTime = Math.abs(
+      new Date(startDateValue).getTime() - new Date(endDateValue).getTime()
+    );
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    setDiffdays(diffDays);
+    if (diffDays != 0) {
+      totalPrice = ceilNumber(props.priceHT * 1.2, 2) * diffDays;
+      if (Deal != 0) {
+        totalPrice = totalPrice - Deal;
+        setTotalPrice(totalPrice);
+      } else setTotalPrice(totalPrice);
+    }
+  }
+
+  let body = null;
+
+  if (meLoading) {
+  } else if (!data?.me) {
+    body = (
+      <div>
+        <Formik
+          initialValues={{
+            startDate: new Date().toISOString().split("T")[0],
+            endDate: "",
+            adults: 0,
+            children: 0,
+            occupantId: 0,
+            offerId: 0,
+            priceHT: props.priceHT,
+            touristTax: props.touristTaxe,
+            priceTTC: ceilNumber(props.priceHT * 1.2, 2),
+            status: "",
+            cancelReason: "",
+          }}
+          onSubmit={handleFormSubmit}
+        >
+          {({ isSubmitting, values }) => (
+            <Form tw="w-4/6 flex flex-col pt-2 pb-5 m-auto md:items-center">
+              <Container>
+                <InputField
+                  icon="explore"
+                  label="arrive"
+                  type="date"
+                  placeholder="Quand ? "
+                  min={new Date().toISOString().split("T")[0]}
+                  name="startDate"
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="explore_off"
+                  label="depart"
+                  name="endDate"
+                  type="date"
+                  placeholder="Quand ?"
+                  min={setMinDepartDate(values.startDate)}
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="people"
+                  label="adultes"
+                  name="adults"
+                  type="number"
+                  onClick={() =>
+                    setDifferenceDate(values.startDate, values.endDate)
+                  }
+                  placeholder="Combien?"
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="face"
+                  label="enfant(s)"
+                  name="children"
+                  type="number"
+                  placeholder="..."
+                  required
+                />
+              </Container>
+
+              <BlockedButton type="submit">Connectez-vous</BlockedButton>
+            </Form>
+          )}
+        </Formik>
+        <H4>
+          séjour de :
+          <span tw="text-gray-900 float-right text-base lg:text-lg">
+            {diffDays} nuit(s) * {ceilNumber(props.priceHT * 1.2, 2)}€
+          </span>
+        </H4>
+        <H4>
+          Réduction du moment :
+          <span tw="text-red-500 float-right text-base lg:text-lg">
+            -{Deal} €
+          </span>
+        </H4>
+        <HR />
+        <H3>
+          Total :
+          <span tw="text-gray-900 float-right text-sm lg:text-lg">
+            {totalPrice}€
+          </span>
+        </H3>
+      </div>
+    );
+  } else {
+    body = (
+      <div>
+        <Formik
+          initialValues={{
+            startDate: new Date().toISOString().split("T")[0],
+            endDate: "",
+            adults: 0,
+            children: 0,
+            occupantId: data!.me!.id,
+            offerId: props.offerId,
+            priceHT: props.priceHT,
+            priceTTC: ceilNumber(props.priceHT * 1.2, 2),
+            touristTax: props.touristTaxe,
+            status: "WAITING_APPROVAL",
+            cancelReason: "UNKNOWN",
+          }}
+          onSubmit={handleFormSubmit}
+        >
+          {({ isSubmitting, values }) => (
+            <Form tw="w-5/6 flex flex-col pt-2 pb-5 m-auto md:items-center">
+              <Container>
+                <InputField
+                  icon="explore"
+                  label="arrive"
+                  type="date"
+                  placeholder="Quand ? "
+                  min={new Date().toISOString().split("T")[0]}
+                  name="startDate"
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="explore_off"
+                  label="depart"
+                  name="endDate"
+                  type="date"
+                  placeholder="Quand ?"
+                  min={setMinDepartDate(values.startDate)}
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="people"
+                  label="adultes"
+                  name="adults"
+                  type="number"
+                  onClick={() =>
+                    setDifferenceDate(values.startDate, values.endDate)
+                  }
+                  placeholder="Combien?"
+                  required
+                />
+              </Container>
+              <Container>
+                <InputField
+                  icon="face"
+                  label="enfant(s)"
+                  name="children"
+                  type="number"
+                  placeholder="..."
+                  required
+                />
+              </Container>
+              <Container>
+                <StripeContainer amount={values.priceTTC} />
+              </Container>
+            </Form>
+          )}
+        </Formik>
+        <H4>
+          séjour de :
+          <span tw="text-gray-900 float-right text-base lg:text-lg">
+            {diffDays} nuit(s) * {ceilNumber(props.priceHT * 1.2, 2)}€
+          </span>
+        </H4>
+        <H4>
+          Réduction du moment :
+          <span tw="text-red-500 float-right text-base lg:text-lg">
+            -{Deal} €
+          </span>
+        </H4>
+        <HR />
+        <H3>
+          Total :
+          <span tw="text-gray-900 float-right text-sm lg:text-lg">
+            {totalPrice}€
+          </span>
+        </H3>
+      </div>
+    );
+  }
+
+  return body;
+}

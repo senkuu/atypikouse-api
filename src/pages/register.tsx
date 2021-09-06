@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import { Formik, Form } from "formik";
 import tw, { styled } from "twin.macro";
 import Image from "next/image";
-import { useRegisterMutation } from "../generated/graphql";
+import { useMeQuery, useRegisterMutation } from "../generated/graphql";
 
 import InputField from "../components/InputField";
 import { useApolloClient } from "@apollo/client";
+import CancelAccess from "../components/CancelAccess";
 
 const Wrapper = tw.div`flex flex-wrap mb-2.5`;
 const Banner = styled.div`
@@ -32,6 +33,8 @@ interface Values {
   surname: string;
   email: string;
   password: string;
+  userType: string;
+  status: string;
 }
 
 export default function Register() {
@@ -40,7 +43,8 @@ export default function Register() {
   const apolloClient = useApolloClient();
 
   const [register] = useRegisterMutation();
-
+  const { data, loading: meLoading } = useMeQuery();
+  let body = null;
   const handleFormSubmit = async (values: Values) => {
     const response = await register({ variables: values });
 
@@ -51,106 +55,125 @@ export default function Register() {
     await router.push("/");
   };
 
-  return (
-    <Wrapper>
-      <ContainerForm>
-        <RightForm>
-          <RightFormCenter>
-            <Image
-              src="/Logo-mountain.png"
-              alt="Picture of the author"
-              width={220}
-              height={140}
-            />
-            <HeadLine>Créer votre compte !</HeadLine>
-            <Paragraphe>Entrez vos informations pour vous inscrire</Paragraphe>
-          </RightFormCenter>
-          <Formik
-            initialValues={{
-              name: "",
-              surname: "",
-              email: "",
-              password: "",
-            }}
-            onSubmit={handleFormSubmit}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <Position>
-                  <Container_Name>
-                    <InputField
-                      icon="person"
-                      label="Nom"
-                      name="name"
-                      type="text"
-                      placeholder="Dupont"
-                      required
-                    />
-                  </Container_Name>
-
-                  <Container_Name>
-                    <InputField
-                      icon="person"
-                      label="Prenom"
-                      name="surname"
-                      type="text"
-                      placeholder="Jean"
-                      required
-                    />
-                  </Container_Name>
-                </Position>
-                <Position>
-                  <Container_Email>
-                    <InputField
-                      icon="alternate_email"
-                      label="Email"
-                      name="email"
-                      type="email"
-                      placeholder="jean@dupont.com"
-                      required
-                    />
-                  </Container_Email>
-                </Position>
-                <div>
+  if (meLoading) {
+  } else if (!data?.me) {
+    body = (
+      <Wrapper>
+        <ContainerForm>
+          <RightForm>
+            <RightFormCenter>
+              <Image
+                src="/Logo-mountain.png"
+                alt="Picture of the author"
+                width={220}
+                height={140}
+              />
+              <HeadLine>Créer votre compte !</HeadLine>
+              <Paragraphe>
+                Entrez vos informations pour vous inscrire
+              </Paragraphe>
+            </RightFormCenter>
+            <Formik
+              initialValues={{
+                name: "",
+                surname: "",
+                email: "",
+                password: "",
+                userType: "default",
+                status: "activated",
+              }}
+              onSubmit={handleFormSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form>
                   <Position>
-                    <Container_Password>
+                    <Container_Name>
                       <InputField
-                        icon="https"
-                        label="Mot de passe"
-                        name="password"
-                        type="password"
-                        placeholder="********"
+                        icon="person"
+                        label="Nom"
+                        name="name"
+                        type="text"
+                        placeholder="Dupont"
                         required
                       />
-                    </Container_Password>
+                    </Container_Name>
+
+                    <Container_Name>
+                      <InputField
+                        icon="person"
+                        label="Prenom"
+                        name="surname"
+                        type="text"
+                        placeholder="Jean"
+                        required
+                      />
+                    </Container_Name>
                   </Position>
-                </div>
-                <div>
-                  {isError ? (
-                    <ErrorMessage>
-                      *mot de passe trop court. le mot de passe doit comporter
-                      minimum 8 caractères
-                    </ErrorMessage>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <Position>
-                  <Container_Button>
-                    <SubmitButton type="submit">
-                      S'inscrire maintenant
-                    </SubmitButton>
-                  </Container_Button>
-                </Position>
-                <div tw="w-full text-center font-medium	text-xs text-gray-700 ">
-                  <a href="/login">Déjà un compte chez nous ?</a>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </RightForm>
-      </ContainerForm>
-      <Banner />
-    </Wrapper>
-  );
+                  <Position>
+                    <Container_Email>
+                      <InputField
+                        icon="alternate_email"
+                        label="Email"
+                        name="email"
+                        type="email"
+                        placeholder="jean@dupont.com"
+                        required
+                      />
+                    </Container_Email>
+                  </Position>
+                  <div>
+                    <Position>
+                      <Container_Password>
+                        <InputField
+                          icon="https"
+                          label="Mot de passe"
+                          name="password"
+                          type="password"
+                          placeholder="********"
+                          required
+                        />
+                      </Container_Password>
+                    </Position>
+                  </div>
+                  <div>
+                    {isError ? (
+                      <ErrorMessage>
+                        *mot de passe trop court. le mot de passe doit comporter
+                        minimum 8 caractères
+                      </ErrorMessage>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <Position>
+                    <Container_Button>
+                      <SubmitButton type="submit">
+                        S'inscrire maintenant
+                      </SubmitButton>
+                    </Container_Button>
+                  </Position>
+                  <div tw="w-full text-center font-medium	text-xs text-gray-700 ">
+                    <a href="/login">Déjà un compte chez nous ?</a>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </RightForm>
+        </ContainerForm>
+        <Banner />
+      </Wrapper>
+    );
+  } else {
+    body = (
+      <>
+        <CancelAccess
+          userName={data.me.name}
+          title="Il semble que vous soyez déjà connecter"
+          details="veuillez retourner sur la page d'accueil"
+        />
+      </>
+    );
+  }
+
+  return body;
 }

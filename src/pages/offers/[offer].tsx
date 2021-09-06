@@ -4,6 +4,7 @@ import { useOfferQuery } from "../../generated/graphql";
 import { useRouter } from "next/router";
 import Icon from "@material-ui/core/Icon";
 import ModalContainer from "../../components/Modal";
+import OfferInput from "../../components/OfferInput";
 
 import StripeContainer from '../../Stripe/StripeContainer'
 
@@ -32,8 +33,7 @@ const FirstImage = tw.div`relative col-span-3 row-span-2 md:col-span-2`;
 const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
 const Description = tw.p`text-xs md:text-lg text-gray-900`;
 const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;
-const H3 = tw.h3`font-serif text-sm lg:text-2xl font-bold`;
-const H4 = tw.h4`font-serif text-base lg:text-lg`;
+const H3 = tw.h3`font-serif text-sm lg:text-3xl font-bold`;
 
 export default function OfferPage() {
   const router = useRouter();
@@ -70,7 +70,6 @@ export default function OfferPage() {
     "Lac",
   ];
 
-
   if (isNaN(offerId) || offerId === undefined) {
     return <p>invalid offer id</p>;
   }
@@ -90,8 +89,6 @@ export default function OfferPage() {
     return <p>404</p>;
   }
 
-  const Deal = 37;
-
   return (
     <>
       <Wrapper>
@@ -99,21 +96,23 @@ export default function OfferPage() {
           <h1 tw="font-serif text-lg lg:text-3xl font-bold ml-10 pt-4">
             {data.offer.title}
           </h1>
+          <H3 tw="ml-10">
+            {data.offer.priceTTC}€
+            <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
+          </H3>
+          <H3 tw="font-serif text-sm lg:text-2xl font-bold"></H3>
           <div tw="flex items-center text-sm font-medium ml-10 my-5 sm:mt-2 sm:mb-4">
             <div tw="ml-1">
               <span tw="text-black flex items-center">
                 <p tw="mr-1">
-                  {data!.offer.averageRating
-                    ? Math.round(data!.offer.averageRating * 100) / 100
+                  {data.offer.averageRating
+                    ? Math.round(data.offer.averageRating * 100) / 100
                     : "Aucune note"}
                 </p>
                 <Icon style={{ color: "#688f4e", fontSize: 24 }}>star</Icon>
               </span>
             </div>
             <div tw="text-base font-normal mx-2">·</div>
-            <div>
-              {data!.offer.city.name} ({data!.offer.city.departement.number})
-            </div>
             <div tw="text-base font-normal mx-2">·</div>
             <div tw="text-gray-500 ml-1">
               <span tw="flex items-center">
@@ -143,39 +142,24 @@ export default function OfferPage() {
             ))}
           </ImageContainer>
           <Container>
-            <div tw="bg-white shadow-sm w-full h-3/4 p-6">
+            <div tw="bg-white shadow-sm w-full h-full p-6">
               <H3 tw="font-serif text-sm lg:text-2xl font-bold">
-                125€ <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
+                {data.offer.priceTTC}€
+                <span tw="text-gray-500 text-sm lg:text-lg">/ nuit</span>
               </H3>
-              <p>Datepicker</p>
-              <StripeContainer amount={120000} />
+              <OfferInput
+                priceHT={data.offer.priceHT}
+                offerId={offerId}
+                touristTaxe={data.offer.touristTax}
+              />
               <p tw="text-center text-xs mt-2 mb-4">
                 Aucun montant ne vous sera débité pour le moment
               </p>
-              <HR />000
-              <H4>
-                séjour de :
-                <span tw="text-gray-900 float-right text-base lg:text-lg">
-                  7 nuit(s) * 89€
-                </span>
-              </H4>
-              <H4>
-                Réduction du moment :
-                <span tw="text-gray-900 float-right text-base lg:text-lg">
-                  {Deal}€
-                </span>
-              </H4>
               <HR />
-              <H3>
-                Total :
-                <span tw="text-gray-900 float-right text-sm lg:text-lg">
-                  120€
-                </span>
-              </H3>
             </div>
             <div tw="ml-5">
               <H3 tw="font-serif text-sm lg:text-2xl font-bold">
-                {data!.offer.title}
+                {data.offer.title}
               </H3>
               <div tw="flex items-center text-sm font-medium my-5 sm:mt-2 sm:mb-4">
                 <div tw="ml-1">
@@ -194,9 +178,9 @@ export default function OfferPage() {
                 </div>
               </div>
               <HR />
-              <Description>{data!.offer?.description} </Description>
+              <Description>{data.offer.description} </Description>
               <ModalContainer Title="Le logement" Button="En savoir plus">
-                <Description>{data!.offer?.description} </Description>
+                <Description>{data.offer.description} </Description>
               </ModalContainer>
               <div
                 tw="relative px-4 py-3 mt-4 leading-normal text-red-700 bg-red-100"
@@ -234,9 +218,6 @@ export default function OfferPage() {
               </div>
             </div>
           </Container>
-          {/* <h1 tw="font-serif text-lg lg:text-3xl font-bold ml-10 pt-4">
-            Où se situe le logement
-          </h1> */}
         </div>
       </Wrapper>
     </>

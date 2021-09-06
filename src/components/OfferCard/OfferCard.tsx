@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { useApolloClient } from "@apollo/client";
+import React from "react";
 import tw, { styled } from "twin.macro";
-import Image from "next/image";
 import Icon from "@material-ui/core/Icon";
 import { Offer } from "../../generated/graphql";
 
@@ -27,7 +25,7 @@ function OfferCard(props: Props) {
       <OfferContainer>
         <Description>
           <p tw="text-sm font-medium text-white sm:mb-1 sm:text-gray-500">
-            Séjour unique
+            {props.offer.offerType.name}
           </p>
           <h2 tw="text-xl font-semibold text-white sm:text-2xl sm:leading-7 sm:text-black md:text-3xl">
             {props.offer.title}
@@ -70,9 +68,9 @@ function OfferCard(props: Props) {
             Annonce postée par{" "}
             <a
               tw="ml-1 mr-1 text-Green-light"
-              href={"profile/" + props.offer.id}
+              href={"profile/" + props.offer.owner.id}
             >
-              Le domaine de la roche jague
+              {props.offer.owner.name}
             </a>
             <Icon style={{ color: "#688f4e", fontSize: 24 }}>
               verified_User
