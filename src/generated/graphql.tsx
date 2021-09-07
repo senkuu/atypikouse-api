@@ -946,7 +946,14 @@ export type BookingsQuery = (
   { __typename?: 'Query' }
   & { bookings?: Maybe<Array<(
     { __typename?: 'Booking' }
-    & BaseBookingFragment
+    & Pick<Booking, 'id' | 'startDate' | 'endDate'>
+    & { offer: (
+      { __typename?: 'Offer' }
+      & Pick<Offer, 'id' | 'title' | 'description' | 'priceHT' | 'priceTTC'>
+    ), review?: Maybe<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'id'>
+    )> }
   )>> }
 );
 
@@ -1425,10 +1432,22 @@ export type BookingQueryResult = Apollo.QueryResult<BookingQuery, BookingQueryVa
 export const BookingsDocument = gql`
     query bookings($occupantId: Float) {
   bookings(occupantId: $occupantId) {
-    ...BaseBooking
+    id
+    offer {
+      id
+      title
+      description
+      priceHT
+      priceTTC
+    }
+    startDate
+    endDate
+    review {
+      id
+    }
   }
 }
-    ${BaseBookingFragmentDoc}`;
+    `;
 
 /**
  * __useBookingsQuery__

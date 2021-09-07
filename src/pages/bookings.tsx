@@ -32,7 +32,7 @@ export default function Login() {
   } else {
     body = (
       <>
-        <ToastContainer
+        {/* <ToastContainer
           position="top-center"
           autoClose={3000}
           hideProgressBar={false}
@@ -42,9 +42,9 @@ export default function Login() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-        >
-          <BookingCard />
-        </ToastContainer>
+        > */}
+        <BookingCard />
+        {/* </ToastContainer> */}
       </>
     );
   }
