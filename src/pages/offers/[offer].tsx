@@ -56,7 +56,7 @@ export default function OfferPage() {
   useEffect(() => {
     if (data?.offer?.photos) {
       data.offer.photos.map((photo) => {
-        fetch(`http://localhost:4000/images/${photo.id}`)
+        fetch(`http://api.atypikhou.se/images/${photo.id}`)
           .then((response) => setImageSrc((prev) => [...prev, response.url]))
           .catch((err) => console.error(err));
       });

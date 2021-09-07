@@ -92,7 +92,7 @@ export default function OfferInput(props: props) {
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/stripe/charge",
+          "http://api.atypikhou.se/stripe/charge",
           {
             amount: createBookingData.createBooking.booking.priceTTC,
             id: paymentMethod!.id,
