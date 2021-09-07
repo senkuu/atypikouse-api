@@ -168,7 +168,7 @@ export default function Register() {
       <>
         <CancelAccess
           userName={data.me.name}
-          title="Il semble que vous soyez déjà connecter"
+          title="Il   semble que vous soyez déjà connecter"
           details="veuillez retourner sur la page d'accueil"
         />
       </>

@@ -1,18 +1,21 @@
 fragment BaseBooking on Booking {
+  id
+  adults
+  children
+  priceHT
+  priceTTC
+  touristTax
+  startDate
+  endDate
+  status
+  cancelReason
+  offer {
+    ...BaseOffer
+  }
+  occupant {
+    ...BaseUser
+  }
+  review {
     id
-    adults
-    children
-    priceHT
-    priceTTC
-    touristTax
-    startDate
-    endDate
-    status
-    cancelReason
-    offer {
-      ...BaseOffer
-    }
-    occupant {
-      ...BaseUser
-    }
+  }
 }

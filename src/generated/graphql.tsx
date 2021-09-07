@@ -87,7 +87,7 @@ export type CreateOfferInput = {
   priceTTC: Scalars['Float'];
   cityId: Scalars['Float'];
   ownerId: Scalars['Float'];
-  offerTypeId?: Maybe<Scalars['Float']>;
+  offerTypeId: Scalars['Float'];
   deleteReason?: Maybe<Scalars['String']>;
   status: Scalars['String'];
 };
@@ -95,6 +95,12 @@ export type CreateOfferInput = {
 export type CreateOfferTypeInput = {
   name: Scalars['String'];
   criteriaIds?: Maybe<Array<Scalars['Float']>>;
+};
+
+export type CreateReviewInput = {
+  bookingId: Scalars['Float'];
+  text: Scalars['String'];
+  rating: Scalars['Float'];
 };
 
 export type Criteria = {
@@ -166,6 +172,9 @@ export type Mutation = {
   addPlanningData: PlanningDataResponse;
   updatePlanningData?: Maybe<PlanningDataResponse>;
   removePlanningData: Scalars['Boolean'];
+  createReview: ReviewResponse;
+  updateReview?: Maybe<ReviewResponse>;
+  deleteReview: Scalars['Boolean'];
 };
 
 
@@ -332,6 +341,22 @@ export type MutationRemovePlanningDataArgs = {
   id: Scalars['Float'];
 };
 
+
+export type MutationCreateReviewArgs = {
+  options: CreateReviewInput;
+};
+
+
+export type MutationUpdateReviewArgs = {
+  options: UpdateReviewInput;
+  id: Scalars['Float'];
+};
+
+
+export type MutationDeleteReviewArgs = {
+  id: Scalars['Float'];
+};
+
 export type Notice = {
   __typename?: 'Notice';
   id: Scalars['Float'];
@@ -462,6 +487,8 @@ export type Query = {
   departements?: Maybe<Array<Departement>>;
   departement?: Maybe<Departement>;
   plannings: Array<Planning>;
+  reviews: Array<Review>;
+  review?: Maybe<Review>;
 };
 
 
@@ -573,6 +600,19 @@ export type QueryPlanningsArgs = {
   options: SearchPlanningDataInput;
 };
 
+
+export type QueryReviewsArgs = {
+  occupantId?: Maybe<Scalars['Float']>;
+  ownerId?: Maybe<Scalars['Float']>;
+  offerId?: Maybe<Scalars['Float']>;
+};
+
+
+export type QueryReviewArgs = {
+  bookingId?: Maybe<Scalars['Float']>;
+  id: Scalars['Float'];
+};
+
 export type Region = {
   __typename?: 'Region';
   id: Scalars['Float'];
@@ -597,6 +637,12 @@ export type Review = {
   rating: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type ReviewResponse = {
+  __typename?: 'ReviewResponse';
+  errors?: Maybe<Array<FieldError>>;
+  review?: Maybe<Review>;
 };
 
 export type SearchOfferResponse = {
@@ -646,6 +692,11 @@ export type UpdatePlanningDataInput = {
   endDate?: Maybe<Scalars['DateTime']>;
 };
 
+export type UpdateReviewInput = {
+  text?: Maybe<Scalars['String']>;
+  rating?: Maybe<Scalars['Float']>;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['Float'];
@@ -659,7 +710,6 @@ export type User = {
   city?: Maybe<City>;
   notices?: Maybe<Array<Notice>>;
   linkedNotices?: Maybe<Array<Notice>>;
-  photo?: Maybe<Photo>;
   planningData?: Maybe<Array<Planning>>;
   userType: Scalars['String'];
   status: Scalars['String'];
@@ -682,7 +732,10 @@ export type BaseBookingFragment = (
   ), occupant: (
     { __typename?: 'User' }
     & BaseUserFragment
-  ) }
+  ), review?: Maybe<(
+    { __typename?: 'Review' }
+    & Pick<Review, 'id'>
+  )> }
 );
 
 export type BaseErrorFragment = (
@@ -709,6 +762,19 @@ export type BaseOfferFragment = (
   ), owner: (
     { __typename?: 'User' }
     & Pick<User, 'name'>
+  ) }
+);
+
+export type BaseReviewFragment = (
+  { __typename?: 'Review' }
+  & Pick<Review, 'id' | 'text' | 'rating'>
+  & { booking: (
+    { __typename?: 'Booking' }
+    & Pick<Booking, 'id'>
+    & { occupant: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'surname'>
+    ) }
   ) }
 );
 
@@ -757,6 +823,27 @@ export type CreateBookingMutation = (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'name' | 'surname' | 'email'>
       ) }
+    )> }
+  ) }
+);
+
+export type CreateReviewMutationVariables = Exact<{
+  bookingId: Scalars['Float'];
+  text: Scalars['String'];
+  rating: Scalars['Float'];
+}>;
+
+
+export type CreateReviewMutation = (
+  { __typename?: 'Mutation' }
+  & { createReview: (
+    { __typename?: 'ReviewResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & BaseErrorFragment
+    )>>, review?: Maybe<(
+      { __typename?: 'Review' }
+      & BaseReviewFragment
     )> }
   ) }
 );
@@ -907,6 +994,21 @@ export type OffersQuery = (
   ) }
 );
 
+export type ReviewsQueryVariables = Exact<{
+  offerId?: Maybe<Scalars['Float']>;
+  ownerId?: Maybe<Scalars['Float']>;
+  occupantId?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type ReviewsQuery = (
+  { __typename?: 'Query' }
+  & { reviews: Array<(
+    { __typename?: 'Review' }
+    & BaseReviewFragment
+  )> }
+);
+
 export const BaseOfferFragmentDoc = gql`
     fragment BaseOffer on Offer {
   id
@@ -969,9 +1071,27 @@ export const BaseBookingFragmentDoc = gql`
   occupant {
     ...BaseUser
   }
+  review {
+    id
+  }
 }
     ${BaseOfferFragmentDoc}
 ${BaseUserFragmentDoc}`;
+export const BaseReviewFragmentDoc = gql`
+    fragment BaseReview on Review {
+  id
+  text
+  rating
+  booking {
+    id
+    occupant {
+      id
+      name
+      surname
+    }
+  }
+}
+    `;
 export const BaseErrorFragmentDoc = gql`
     fragment BaseError on FieldError {
   field
@@ -1054,6 +1174,47 @@ export function useCreateBookingMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateBookingMutationHookResult = ReturnType<typeof useCreateBookingMutation>;
 export type CreateBookingMutationResult = Apollo.MutationResult<CreateBookingMutation>;
 export type CreateBookingMutationOptions = Apollo.BaseMutationOptions<CreateBookingMutation, CreateBookingMutationVariables>;
+export const CreateReviewDocument = gql`
+    mutation createReview($bookingId: Float!, $text: String!, $rating: Float!) {
+  createReview(options: {bookingId: $bookingId, text: $text, rating: $rating}) {
+    errors {
+      ...BaseError
+    }
+    review {
+      ...BaseReview
+    }
+  }
+}
+    ${BaseErrorFragmentDoc}
+${BaseReviewFragmentDoc}`;
+export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
+
+/**
+ * __useCreateReviewMutation__
+ *
+ * To run a mutation, you first call `useCreateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReviewMutation, { data, loading, error }] = useCreateReviewMutation({
+ *   variables: {
+ *      bookingId: // value for 'bookingId'
+ *      text: // value for 'text'
+ *      rating: // value for 'rating'
+ *   },
+ * });
+ */
+export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, options);
+      }
+export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
+export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(options: {email: $email, password: $password}) {
@@ -1412,3 +1573,40 @@ export function useOffersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Off
 export type OffersQueryHookResult = ReturnType<typeof useOffersQuery>;
 export type OffersLazyQueryHookResult = ReturnType<typeof useOffersLazyQuery>;
 export type OffersQueryResult = Apollo.QueryResult<OffersQuery, OffersQueryVariables>;
+export const ReviewsDocument = gql`
+    query Reviews($offerId: Float, $ownerId: Float, $occupantId: Float) {
+  reviews(offerId: $offerId, ownerId: $ownerId, occupantId: $occupantId) {
+    ...BaseReview
+  }
+}
+    ${BaseReviewFragmentDoc}`;
+
+/**
+ * __useReviewsQuery__
+ *
+ * To run a query within a React component, call `useReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReviewsQuery({
+ *   variables: {
+ *      offerId: // value for 'offerId'
+ *      ownerId: // value for 'ownerId'
+ *      occupantId: // value for 'occupantId'
+ *   },
+ * });
+ */
+export function useReviewsQuery(baseOptions?: Apollo.QueryHookOptions<ReviewsQuery, ReviewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReviewsQuery, ReviewsQueryVariables>(ReviewsDocument, options);
+      }
+export function useReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReviewsQuery, ReviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReviewsQuery, ReviewsQueryVariables>(ReviewsDocument, options);
+        }
+export type ReviewsQueryHookResult = ReturnType<typeof useReviewsQuery>;
+export type ReviewsLazyQueryHookResult = ReturnType<typeof useReviewsLazyQuery>;
+export type ReviewsQueryResult = Apollo.QueryResult<ReviewsQuery, ReviewsQueryVariables>;
