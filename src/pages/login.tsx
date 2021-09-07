@@ -102,7 +102,9 @@ export default function Login() {
                     </Container_Button>
                   </Position>
                   <div tw="w-full text-center font-medium	text-xs text-gray-700 ">
-                    <a href="/resetpassword">Mot de passe oublié ?</a>
+                    <a href="/register">
+                      Pas encore de compte chez AtypikHouse ?
+                    </a>
                   </div>
                 </Form>
               )}
