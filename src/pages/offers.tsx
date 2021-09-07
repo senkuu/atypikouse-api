@@ -120,4 +120,4 @@ function Offers() {
   );
 }
 
-export default withApollo({ ssr: false })(Offers);
+export default withApollo({ ssr: true })(Offers);

@@ -55,7 +55,7 @@ export default function OfferPage() {
   useEffect(() => {
     if (data?.offer?.photos) {
       data.offer.photos.map((photo) => {
-        fetch(`${process.env.API_URL ?? "http://localhost:4000"}/images/${photo.id}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"}/images/${photo.id}`)
           .then((response) => setImageSrc((prev) => [...prev, response.url]))
           .catch((err) => console.error(err));
       });
