@@ -193,7 +193,7 @@ export default function OfferPage() {
                   <Icon style={{ color: "red", fontSize: 24 }}>cancel</Icon>
                 </span>
                 <p tw="ml-8">
-                  Aucun partenaire certifié AtypikHouse vous redirigera vers un
+                  Aucun partenaire certifié AtypikHouse ne vous redirigera vers un
                   moyen de communication externe
                 </p>
               </div>

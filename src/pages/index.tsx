@@ -100,21 +100,21 @@ export default function Home() {
             <ReviewsContainer>
               <ReviewCard
                 author={{
-                  name: "Nathalie D.",
+                  name: "Pierre D.",
                   location: "Seine-Maritime",
                   profilePictureURI:
-                    "https://cdn-elle.ladmedia.fr/var/plain_site/storage/images/people/la-vie-des-people/news/natalie-portman-declare-sa-flamme-a-benjamin-millepied-3868407/93600559-1-fre-FR/Natalie-Portman-declare-sa-flamme-a-Benjamin-Millepied.jpg",
+                    "https://randomuser.me/api/portraits/men/10.jpg",
                 }}
-                review="Logement réservé la veille pour le week-end, tout était conforme à nos attentes. Anne-Claude nous a même fait bénéficier d’un petit-déjeuner gratuit ! C’était notre premier week-end avec Atypik House, mais sûrement pas le dernier !"
+                review="Logement réservé la veille pour le week-end, tout était conforme à nos attentes. Anne-Claude nous a même fait bénéficier d’un petit-déjeuner gratuit ! C’était notre premier week-end avec AtypikHouse, mais sûrement pas le dernier !"
               />
               <ReviewCard
                 author={{
-                  name: "Cyril H.",
+                  name: "Laure C.",
                   location: "Eure",
                   profilePictureURI:
-                    "https://www.nextplz.fr/wp-content/uploads/2020/03/tpmp-cyril-hanouna-dvoile-qui-est-la-pire-clbrit-quil-a-reu-en-plateau.jpg",
+                    "https://randomuser.me/api/portraits/women/87.jpg",
                 }}
-                review="C’était la grosse dehka !!! Le logement était incroyable les amis !! On s’est éclaté avec Delormeau et mon pote Gilles, on va refaire ça HAHHAHAHAH C’EST LA DEHKA"
+                review="Logement réservé la veille pour le week-end, tout était conforme à nos attentes. Anne-Claude nous a même fait bénéficier d’un petit-déjeuner gratuit ! C’était notre premier week-end avec AtypikHouse, mais sûrement pas le dernier !"
               />
             </ReviewsContainer>
           </section>

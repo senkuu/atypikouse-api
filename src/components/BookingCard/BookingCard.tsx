@@ -25,7 +25,7 @@ export default function BookingCard() {
   }
 
   if (!data) {
-    return <p>vous avez aucune réservation chez AtypikHouse à ce jour.</p>;
+    return <p>Vous n'avez aucune réservation chez AtypikHouse à ce jour.</p>;
   }
 
   return (
@@ -59,7 +59,7 @@ export default function BookingCard() {
                   </Link>
                   <Link href={`/bookings/${booking.id}`}>
                     <button tw="py-2 px-4 ml-8 mt-8 text-yellow-500 bg-white rounded-md shadow-xl">
-                      Mettre un avis
+                      Laisser un avis
                     </button>
                   </Link>
                   <div>

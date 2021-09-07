@@ -34,7 +34,7 @@ export default function Nav() {
               <a tw="mr-5 hover:text-gray-900">Accueil</a>
             </Link>
             <Link href="/offers">
-              <a tw="mr-5 hover:text-gray-900">Nos hebergements</a>
+              <a tw="mr-5 hover:text-gray-900">Nos hébergements</a>
             </Link>
             <Link
               href="/inscription-proprietaire"
@@ -84,7 +84,7 @@ export default function Nav() {
               <a tw="mr-5 hover:text-gray-900">Accueil</a>
             </Link>
             <Link href="/offers">
-              <a tw="mr-5 hover:text-gray-900">Nos hebergements</a>
+              <a tw="mr-5 hover:text-gray-900">Nos hébergements</a>
             </Link>
             <Link
               href="/inscription-proprietaire"

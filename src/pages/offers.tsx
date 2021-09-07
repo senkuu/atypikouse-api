@@ -102,7 +102,7 @@ function Offers() {
           <span tw="absolute inset-y-0 left-0 flex items-center ml-3">
             <Icon style={{ color: "#688F4E", fontSize: 24 }}>check_circle</Icon>
           </span>
-          <p tw="ml-8">Les offres ont bien étaient actualisées.</p>
+          <p tw="ml-8">Les offres ont bien été actualisées.</p>
         </div>
       ) : (
         ""

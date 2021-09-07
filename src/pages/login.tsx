@@ -116,8 +116,8 @@ export default function Login() {
       <>
         <CancelAccess
           userName={data.me.name}
-          title="Il semble que vous soyez déjà connecter"
-          details="veuillez retourner sur la page d'accueil"
+          title="Il semble que vous soyez déjà connecté"
+          details="Veuillez retourner sur la page d'accueil"
         />
       </>
     );

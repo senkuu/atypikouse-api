@@ -114,7 +114,7 @@ function InformationsForm() {
                             label="A propos de vous"
                             name="description"
                             type="text"
-                            placeholder="Raconter nous comment vous êtes unique."
+                            placeholder="Racontez-nous comment vous êtes unique."
                             required
                           />
                         </div>
@@ -190,7 +190,7 @@ function InformationsForm() {
                             </Icon>
                           </span>
                           <p tw="ml-8">
-                            Votre modification à bien était prise en compte.
+                            Votre modification a bien été prise en compte.
                             N'hésitez pas à visiter notre{" "}
                             <a href="/FAQ" tw="font-medium">
                               FAQ

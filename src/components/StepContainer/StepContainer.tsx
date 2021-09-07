@@ -17,20 +17,20 @@ export default function Foot() {
         <StepContainer>
           <StepNumber>1</StepNumber>
           <StepDescription>
-            <b>S'inscrire</b> au formulaire est dédié aux propriétaires.
+            <b>Inscrivez-vous</b> via le formulaire dédié aux propriétaires.
           </StepDescription>
         </StepContainer>
         <StepContainer>
           <StepNumber>2</StepNumber>
           <StepDescription>
-            <b>Déposez</b> votre premiere annonce sur AtypikHouse.
+            <b>Déposez</b> votre première annonce sur AtypikHouse.
           </StepDescription>
         </StepContainer>
         <StepContainer>
           <StepNumber>3</StepNumber>
           <StepDescription>
-            <b>Certifié</b> par l'équipe technique d'AtypikHouse dans les
-            meilleurs délais*.
+            Faites-vous <b>certifier</b> par l'équipe technique d'AtypikHouse (dans les
+            meilleurs délais).
           </StepDescription>
         </StepContainer>
       </StepGrid>

@@ -60,8 +60,8 @@ export default function Login() {
     body = (
       <CancelAccess
         userName={""}
-        title="Il semble que vous ne soyez pas connecter"
-        details="veuillez retourner sur la page d'accueil"
+        title="Il semble que vous ne soyez pas connecté"
+        details="Veuillez retourner sur la page d'accueil"
       />
     );
   } else {
@@ -95,7 +95,7 @@ export default function Login() {
                     label="Votre note :"
                     name="rating"
                     type="number"
-                    placeholder="4.8/5"
+                    placeholder="4/5"
                     max="5"
                     required
                   />
@@ -118,7 +118,7 @@ export default function Login() {
                 }}
                 type="submit"
               >
-                Déposer votre avis
+                Laisser votre avis
               </SubmitButton>
 
               <div tw="w-full text-center font-medium	text-xs text-gray-700 "></div>
@@ -135,7 +135,7 @@ export default function Login() {
                 check_circle
               </Icon>
             </span>
-            <p tw="ml-8">Votre avis à bien était pris en compte.</p>
+            <p tw="ml-8">Votre avis a bien été pris en compte.</p>
           </div>
         ) : (
           ""

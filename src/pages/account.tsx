@@ -19,7 +19,7 @@ export default function Account() {
   } else if (!data?.me) {
     body = (
       <>
-        <p>pas connecter</p>
+        <p>pas connecté</p>
       </>
     );
   } else {

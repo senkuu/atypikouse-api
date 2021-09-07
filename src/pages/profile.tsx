@@ -69,7 +69,7 @@ export default function Profile() {
             " Voici une légère description du domaine ainsi que toutes les
             locations "
           </p>
-          <BannerButton>Voir les disponibilitées</BannerButton>
+          <BannerButton>Voir les disponibilités</BannerButton>
         </BannerDescription>
       </BannerContainer>
       <AboutContainer>

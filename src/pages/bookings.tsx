@@ -25,8 +25,8 @@ export default function Login() {
     body = (
       <CancelAccess
         userName=""
-        title="Il semble que vous ne soyez pas connecter"
-        details="veuillez retourner sur la page d'accueil"
+        title="Il semble que vous ne soyez pas connecté"
+        details="Veuillez retourner sur la page d'accueil"
       />
     );
   } else {

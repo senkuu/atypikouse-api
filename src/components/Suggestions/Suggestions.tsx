@@ -20,7 +20,7 @@ export default function Suggestions() {
   return (
     <Wrapper>
       <h1 tw="font-serif text-4xl text-center mb-10">
-        Où souhaitez vous aller ?
+        Où souhaitez-vous aller ?
       </h1>
       <div tw="flex flex-col justify-center md:flex-wrap md:flex-row ">
         <Container>

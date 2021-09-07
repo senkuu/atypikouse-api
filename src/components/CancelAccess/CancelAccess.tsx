@@ -15,7 +15,7 @@ export default function CancelAccess(props: props) {
         <div tw="bg-white shadow-sm overflow-hidden sm:rounded-lg pb-8">
           <div tw="border-t-0 border-gray-200 text-center pt-8">
             <h1 tw="text-8xl font-bold font-serif text-Green-default">
-              Halte là {props.userName}
+              Halte-là {props.userName}
             </h1>
             <h1 tw="text-3xl text-gray-900 font-medium py-8">{props.title}</h1>
             <p tw="text-2xl pb-8 px-12 text-gray-900 font-medium">

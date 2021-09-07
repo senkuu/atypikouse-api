@@ -56,7 +56,7 @@ export default function SignInOwner() {
         <ContainerForm>
           <RightForm>
             <RightFormCenter>
-              <HeadLine>Faite votre demande !</HeadLine>
+              <HeadLine>Faites votre demande !</HeadLine>
               <Paragraphe>
                 Entrez vos informations pour vous inscrire
               </Paragraphe>

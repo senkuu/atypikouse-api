@@ -17,7 +17,7 @@ export default function OwnerHero() {
       <Container>
         <div>
           <Title>Pourquoi déposer vos annonces chez AtypikHouse</Title>
-          <SubTitle>La plateforme qui certifies vos annonces</SubTitle>
+          <SubTitle>La plateforme qui certifie vos annonces</SubTitle>
         </div>
         <Grid>
           <div>
@@ -35,7 +35,7 @@ export default function OwnerHero() {
                     Service de qualité
                   </h4>
                   <p tw="mt-2 dark:text-gray-400">
-                    AtypikHouse met tout en oeuvre pour répondre à vos question.
+                    AtypikHouse met tout en oeuvre pour répondre à vos questions.
                     Notre support est à <b>votre disposition</b> par téléphone
                     ou bien par mail.
                   </p>
@@ -49,11 +49,11 @@ export default function OwnerHero() {
                 </div>
                 <div tw="ml-4">
                   <h4 tw="text-lg font-medium leading-6 dark:text-Green-default">
-                    Annonces certifiés
+                    Annonces certifiées
                   </h4>
                   <p tw="mt-2 dark:text-gray-400">
                     Pour contrer les arnaques en ligne
-                    <b> AtypikHouse s'engage à certifié</b> votre compte et vos
+                    <b> AtypikHouse s'engage à certifier</b> votre compte et vos
                     annonces pour rassurer les voyageurs.{" "}
                     <a href="FAQ" tw="text-Green-default">
                       En savoir plus sur notre système de certification.
@@ -74,7 +74,7 @@ export default function OwnerHero() {
                   <p tw="mt-2 dark:text-gray-400">
                     Il est important pour nous de <b>mettre en avant</b> les
                     propriétaires les plus investis dans notre plateforme, par
-                    leurs{" "}
+                    leur{" "}
                     <b>
                       ancienneté sur la plateforme ou leurs notes (avis
                       clients).

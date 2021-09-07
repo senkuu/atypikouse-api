@@ -34,7 +34,7 @@ export default function Foot() {
             <GridCol3></GridCol3>
             <GridCol2>
               <a href="#">Accueil</a>
-              <a href="#">Nos Hébergements</a>
+              <a href="#">Nos hébergements</a>
               <a href="#">Devenir propriétaire</a>
               <a href="#">Contact</a>
             </GridCol2>
@@ -84,7 +84,7 @@ export default function Foot() {
             </GridCol2>
           </Grid>
           <Copyright>
-            <p>© 2021 AtypikHouse. Tous les droits sont réservé.</p>
+            <p>© 2021 AtypikHouse - Tous droits réservés</p>
           </Copyright>
         </Container>
       </Footer>

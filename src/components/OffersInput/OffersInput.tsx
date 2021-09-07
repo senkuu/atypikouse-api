@@ -54,7 +54,7 @@ function OffersInput({ withFilters = false }: Props) {
                 label="where"
                 name="where"
                 type="text"
-                placeholder="Où allez vous ?"
+                placeholder="Où allez-vous ?"
                 required
               />
             </Container>
