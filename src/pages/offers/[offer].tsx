@@ -31,7 +31,6 @@ const ImageContainer = tw.div`grid lg:grid-cols-4 md:grid-cols-3 sm:grid-rows-2 
 const FirstImage = tw.div`relative col-span-3 row-span-2 md:col-span-2`;
 const HR = tw.hr`h-4 w-8/12 m-auto mt-4`;
 const Description = tw.p`text-xs md:text-lg text-gray-900`;
-const Button = tw.button`bg-Green-default px-6 py-3 text-sm md:text-lg text-white mt-6 duration-500 hover:bg-Green-light w-full font-serif`;
 const H3 = tw.h3`font-serif text-sm lg:text-3xl font-bold`;
 
 export default function OfferPage() {
@@ -56,15 +55,13 @@ export default function OfferPage() {
   useEffect(() => {
     if (data?.offer?.photos) {
       data.offer.photos.map((photo) => {
-        fetch(`http://api.atypikhou.se/images/${photo.id}`)
+        fetch(`${process.env.API_URL ?? "http://localhost:4000"}/images/${photo.id}`)
           .then((response) => setImageSrc((prev) => [...prev, response.url]))
           .catch((err) => console.error(err));
       });
     }
   }, [data?.offer, loading]);
 
-  const desc =
-    "Toue cabanée traditionnelle de 12 m, amarrée au port de Saint-Dyé-sur-Loire (port de Chambord) 4 couchages : 1 lit 140x200, 1 lit 70 x 200, 2 lits escamotables 70x190, matelas latex respirant. 1 espace salle de bain avec douche 80x80 et lavabo. Eau chaude.";
   let filtres = [
     "Piscine",
     "Mer à moins de 10km",
