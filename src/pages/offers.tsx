@@ -105,8 +105,8 @@ function Offers() {
           <p tw="ml-8">Les offres ont bien été actualisées.</p>
         </div>
       ) : (
-        ""
-      )}
+          ""
+        )}
       {alert ? <></> : <Headline>Si vous êtes flexible :</Headline>}
       {data &&
         data.offers.offers.map((offer, index) => (
@@ -120,4 +120,4 @@ function Offers() {
   );
 }
 
-export default withApollo({ ssr: true })(Offers);
+export default withApollo({ ssr: false })(Offers);
