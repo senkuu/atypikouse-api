@@ -1,7 +1,7 @@
 import { createWithApollo } from "./createWithApollo";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { NextPageContext } from "next";
-import { OffersResponse } from "../generated/graphql";
+import { SearchOfferResponse } from "../generated/graphql";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
@@ -14,9 +14,9 @@ const createClient = (ctx: NextPageContext) =>
             offers: {
               keyArgs: [],
               merge(
-                existing: OffersResponse | undefined,
-                incoming: OffersResponse
-              ): OffersResponse {
+                existing: SearchOfferResponse | undefined,
+                incoming: SearchOfferResponse
+              ): SearchOfferResponse {
                 return {
                   offers: [...(existing?.offers || []), ...incoming.offers],
                 };
