@@ -5,7 +5,7 @@ import { SearchOfferResponse } from "../generated/graphql";
 
 const createClient = (ctx: NextPageContext) =>
   new ApolloClient({
-    uri: process.env.API_URL ? `${process.env.API_URL}/graphql` : "http://localhost:4000/graphql",
+    uri: process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/graphql` : "http://localhost:4000/graphql",
     credentials: "include",
     cache: new InMemoryCache({
       typePolicies: {
